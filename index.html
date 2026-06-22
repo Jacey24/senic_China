@@ -185,11 +185,12 @@
 
         /* 主页特有样式 */
         #home-page {
-            background: linear-gradient(135deg, #1a3a5f 0%, #0a192f 50%, #1a3a5f 100%);
+            background: transparent;
             color: #ffffff;
             overflow-x: hidden;
             min-height: 100vh;
             scroll-behavior: smooth;
+            position: relative;
         }
 
         #home-page .page-container {
@@ -263,7 +264,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: -2;
+            z-index: 0;
         }
 
         .overlay {
@@ -273,7 +274,12 @@
             width: 100%;
             height: 100%;
             background: rgba(10, 25, 47, 0.7);
-            z-index: -1;
+            z-index: 1;
+        }
+
+        .screen-container {
+            position: relative;
+            z-index: 2;
         }
 
         /* 标题屏幕 */
