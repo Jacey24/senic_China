@@ -1,0 +1,4332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>目光所及，皆是华夏</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&family=Noto+Serif+SC:wght@400;700&family=Cormorant+Garamond:wght@400;500;600&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 所有页面的CSS样式 */
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Serif SC', 'Microsoft YaHei', serif;
+        }
+
+        :root {
+            --primary-bg: #0a192f;
+            --secondary-bg: #1a3a5f;
+            --text-color: #ffffff;
+            --accent-color: #d4af37;
+            --card-bg: rgba(26, 58, 95, 0.8);
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] {
+            --primary-bg: #f5f7fa;
+            --secondary-bg: #e4e9f2;
+            --text-color: #2c3e50;
+            --accent-color: #3498db;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background: var(--primary-bg);
+            color: var(--text-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        /* 页面容器 */
+        .page-container {
+            display: none;
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .page-container.active {
+            display: block;
+        }
+
+        /* 导航栏 - 统一样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: rgba(10, 25, 47, 0.9);
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="light"] .navbar {
+            background-color: rgba(245, 247, 250, 0.9);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .mountain-logo {
+            width: 50px;
+            height: 30px;
+            position: relative;
+        }
+
+        .mountain-peak {
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 20px solid var(--text-color);
+        }
+
+        .mountain-peak:nth-child(1) {
+            left: 5px;
+            transform: scale(0.8);
+        }
+
+        .mountain-peak:nth-child(2) {
+            left: 15px;
+            transform: scale(1);
+        }
+
+        .mountain-peak:nth-child(3) {
+            left: 25px;
+            transform: scale(0.9);
+        }
+
+        .mountain-peak:nth-child(4) {
+            left: 35px;
+            transform: scale(0.7);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+            position: relative;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            position: relative;
+            cursor: pointer;
+            padding: 5px 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* 悬停提示 */
+        .nav-tooltip {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(26, 58, 95, 0.9);
+            color: #ffffff;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-links li:hover .nav-tooltip {
+            opacity: 1;
+            visibility: visible;
+            bottom: -45px;
+        }
+
+        /* 主页特有样式 */
+        #home-page {
+            background: linear-gradient(135deg, #1a3a5f 0%, #0a192f 50%, #1a3a5f 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+        }
+
+        #home-page .page-container {
+            background: transparent !important;
+            position: relative;
+        }
+
+        /* 开场动画 */
+        .intro-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a192f 0%, #1a3a5f 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1.5s ease-out;
+        }
+
+        .intro-text {
+            font-size: 4rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 2s forwards 0.5s;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            font-size: 2.2rem;
+            font-family: 'Cormorant Garamond', serif;
+            color: #ffffff;
+            opacity: 0;
+            animation: fadeInUp 2s forwards 1s;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 分屏容器 */
+        .screen-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background: transparent;
+        }
+
+        /* 视频背景 */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.7);
+            z-index: -1;
+        }
+
+        /* 标题屏幕 */
+        .title-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            transition: transform 1s ease;
+            background: transparent;
+        }
+
+        .title-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 0 2rem;
+            background: transparent;
+        }
+
+        .main-title {
+            font-size: 5rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            line-height: 1.2;
+        }
+
+        .sub-title {
+            font-size: 2.5rem;
+            font-family: 'Playfair Display', serif;
+            color: #ffffff;
+            margin-bottom: 4rem;
+            font-weight: 400;
+            letter-spacing: 1.5px;
+            line-height: 1.3;
+        }
+
+        /* 搜索栏 */
+        .search-section {
+            display: flex;
+            justify-content: center;
+            margin: 3rem 0;
+        }
+
+        .search-container {
+            display: flex;
+            width: 100%;
+            max-width: 650px;
+            background: rgba(17, 34, 64, 0.8);
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1.2rem 1.8rem;
+            border: none;
+            background: transparent;
+            color: #ffffff;
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: #e0e0e0;
+            font-style: italic;
+        }
+
+        .search-button {
+            padding: 1.2rem 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            color: #0a192f;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .search-button:hover {
+            background: rgba(255, 255, 255, 1);
+        }
+
+        /* 导览屏幕 */
+        .gallery-screen {
+            position: absolute;
+            top: 100vh;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            z-index: 1;
+            padding: 0 5%;
+            transition: transform 1s ease;
+            background: transparent;
+        }
+
+        .gallery-title {
+            text-align: center;
+            font-size: 3rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #ffffff;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .gallery-category {
+            flex: 1;
+            background: rgba(26, 58, 95, 0.8);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .gallery-category:hover {
+            transform: translateY(-10px);
+        }
+
+        .category-title {
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 1.5rem;
+            font-family: 'ZCOOL KuaiLe', cursive;
+            color: #ffffff;
+            background: rgba(10, 25, 47, 0.9);
+        }
+
+        .image-carousel {
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 滚动指示器 */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffffff;
+            font-size: 1.2rem;
+            text-align: center;
+            z-index: 10;
+            opacity: 0.8;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* 山河页面特有样式 */
+        #landscape-page {
+            background: #0a192f;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+        }
+
+        /* 地图引导页 */
+        .map-intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(10, 25, 47, 0.9), rgba(10, 25, 47, 0.7)),
+                url('images/china-map.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 200;
+            transition: opacity 1.5s ease;
+        }
+
+        .map-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .map-title {
+            font-size: 3.5rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .map-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            color: #e6f1ff;
+            line-height: 1.6;
+        }
+
+        .start-button {
+            background: rgba(212, 175, 55, 0.9);
+            color: #0a192f;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .start-button:hover {
+            background: rgba(212, 175, 55, 1);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 小地图导航 */
+        .mini-map {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            width: 200px;
+            height: 200px;
+            background: rgba(10, 25, 47, 0.8);
+            border-radius: 10px;
+            z-index: 50;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            overflow: hidden;
+            display: none;
+        }
+
+        .mini-map-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+        }
+
+        .location-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #d4af37;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px 3px rgba(212, 175, 55, 0.7);
+            z-index: 51;
+            transition: all 1s ease;
+        }
+
+        /* 主容器 */
+        .scenes-container {
+            position: relative;
+            width: 100%;
+            height: 500vh;
+            display: none;
+        }
+
+        /* 场景通用样式 */
+        .scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10%;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+            z-index: 1;
+        }
+
+        .scene.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        /* 场景背景 */
+        .scene-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            transition: transform 1.5s ease;
+        }
+
+        /* 过渡层 */
+        .transition-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            z-index: 1;
+            transition: opacity 1.5s ease;
+        }
+
+        /* 内容区域 */
+        .content {
+            max-width: 45%;
+            padding: 2rem;
+            background: rgba(10, 25, 47, 0.7);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transform: translateX(-50px);
+            opacity: 0;
+            transition: all 1s ease 0.5s;
+        }
+
+        .scene.active .content {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .scene-title {
+            font-size: 3rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .scene-description {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #e6f1ff;
+            margin-bottom: 1.5rem;
+        }
+
+        .scene-tag {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.8);
+            color: #0a192f;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* 场景特定样式 */
+
+        /* 北方雪山 */
+        #scene1 .scene-bg {
+            /* 请在这里替换为您自己的背景图片URL */
+            background-image: linear-gradient(rgba(10, 25, 47, 0.3), rgba(10, 25, 47, 0.5)),
+                url('images/north-mountains.jpg');
+        }
+
+        #scene1 .transition-layer {
+            background: linear-gradient(rgba(255, 255, 255, 0.3), transparent);
+        }
+
+        /* 戈壁沙漠 */
+        #scene2 .scene-bg {
+            /* 请在这里替换为您自己的背景图片URL */
+            background-image: linear-gradient(rgba(10, 25, 47, 0.3), rgba(10, 25, 47, 0.5)),
+                url('images/desert.jpg');
+        }
+
+        #scene2 .transition-layer {
+            background: linear-gradient(rgba(210, 180, 140, 0.3), transparent);
+        }
+
+        /* 中原平原 */
+        #scene3 .scene-bg {
+            /* 请在这里替换为您自己的背景图片URL */
+            background-image: linear-gradient(rgba(10, 25, 47, 0.3), rgba(10, 25, 47, 0.5)),
+                url('images/plain.jpg');
+        }
+
+        #scene3 .transition-layer {
+            background: linear-gradient(rgba(144, 238, 144, 0.2), transparent);
+        }
+
+        /* 江南水乡 */
+        #scene4 .scene-bg {
+            /* 请在这里替换为您自己的背景图片URL */
+            background-image: linear-gradient(rgba(10, 25, 47, 0.3), rgba(10, 25, 47, 0.5)),
+                url('images/water-town.jpg');
+        }
+
+        #scene4 .transition-layer {
+            background: linear-gradient(rgba(135, 206, 250, 0.3), transparent);
+        }
+
+        /* 南方海岸 */
+        #scene5 .scene-bg {
+            /* 请在这里替换为您自己的背景图片URL */
+            background-image: linear-gradient(rgba(10, 25, 47, 0.3), rgba(10, 25, 47, 0.5)),
+                url('images/coast.jpg');
+        }
+
+        #scene5 .transition-layer {
+            background: linear-gradient(rgba(30, 144, 255, 0.3), transparent);
+        }
+
+        /* 粒子特效容器 */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .scene.active .particles-container {
+            opacity: 1;
+        }
+
+        /* 雪花粒子 */
+        .snowflake {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: snow-fall 15s infinite linear;
+        }
+
+        @keyframes snow-fall {
+            0% {
+                transform: translateY(-100px) translateX(0) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(100vh) translateX(20px) rotate(360deg);
+            }
+        }
+
+        /* 沙尘粒子 */
+        .sand-particle {
+            position: absolute;
+            background: rgba(210, 180, 140, 0.7);
+            border-radius: 50%;
+            animation: sand-drift 20s infinite linear;
+        }
+
+        @keyframes sand-drift {
+            0% {
+                transform: translateX(-100px) translateY(0) rotate(0deg);
+            }
+
+            100% {
+                transform: translateX(100vw) translateY(20px) rotate(180deg);
+            }
+        }
+
+        /* 平原粒子 */
+        .field-particle {
+            position: absolute;
+            background: rgba(144, 238, 144, 0.6);
+            border-radius: 50%;
+            animation: field-float 18s infinite ease-in-out;
+        }
+
+        @keyframes field-float {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-20px) translateX(10px) scale(1.2);
+            }
+        }
+
+        /* 水乡粒子 */
+        .water-particle {
+            position: absolute;
+            background: rgba(135, 206, 250, 0.6);
+            border-radius: 50%;
+            animation: water-ripple 12s infinite ease-in-out;
+        }
+
+        @keyframes water-ripple {
+
+            0%,
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: scale(1.5) translateY(-10px);
+                opacity: 0.3;
+            }
+        }
+
+        /* 海岸粒子 */
+        .coast-particle {
+            position: absolute;
+            background: rgba(30, 144, 255, 0.6);
+            border-radius: 50%;
+            animation: coast-wave 16s infinite ease-in-out;
+        }
+
+        @keyframes coast-wave {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            25% {
+                transform: translateY(-15px) translateX(10px);
+            }
+
+            50% {
+                transform: translateY(0) translateX(20px);
+            }
+
+            75% {
+                transform: translateY(15px) translateX(10px);
+            }
+        }
+
+        /* 进度指示器 */
+        .progress-indicator {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .indicator-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator-dot.active {
+            background: #ffffff;
+            transform: scale(1.3);
+        }
+
+        .indicator-dot:hover {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        /* 人间页面特有样式 */
+        #human-page {
+            background: url('images/博物馆.jpg') center/cover no-repeat fixed;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem 5%;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* 顶部装饰元素 */
+        .top-decoration {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            width: 100%;
+            height: 120px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        .cloud:nth-child(1) {
+            width: 120px;
+            height: 40px;
+            top: 20px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .cloud:nth-child(2) {
+            width: 80px;
+            height: 30px;
+            top: 40px;
+            left: 30%;
+            animation-delay: -5s;
+        }
+
+        .cloud:nth-child(3) {
+            width: 100px;
+            height: 35px;
+            top: 10px;
+            left: 60%;
+            animation-delay: -10s;
+        }
+
+        .cloud:nth-child(4) {
+            width: 70px;
+            height: 25px;
+            top: 50px;
+            left: 80%;
+            animation-delay: -15s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateX(-100px);
+            }
+
+            100% {
+                transform: translateX(calc(100vw + 100px));
+            }
+        }
+
+        /* 标题区域 */
+        .page-header {
+            text-align: center;
+            margin: 2rem 0 4rem;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 10%;
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #e6d7b8, transparent);
+        }
+
+        .page-subtitle {
+            font-size: 1.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            color: #e6d7b8;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* 筛选栏 */
+        .filter-section {
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 3rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .filter-label {
+            font-size: 1rem;
+            color: #e6d7b8;
+            margin-bottom: 0.5rem;
+        }
+
+        .filter-select {
+            background: rgba(10, 25, 47, 0.8);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 0.7rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 150px;
+        }
+
+        .filter-select:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* 人文展示区 */
+        .section-title {
+            font-size: 2.5rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #ffffff;
+            margin: 3rem 0 2rem;
+            text-align: center;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .section-title::before,
+        .section-title::after {
+            content: '✻';
+            color: #e6d7b8;
+            margin: 0 15px;
+            font-size: 1.5rem;
+        }
+
+        .culture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .culture-card {
+            background: rgba(26, 58, 95, 0.8);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .culture-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 0.8rem;
+            font-family: 'Ma Shan Zheng', cursive;
+        }
+
+        .card-description {
+            font-size: 1rem;
+            color: #e6d7b8;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-tag {
+            background: rgba(212, 175, 55, 0.8);
+            color: #0a192f;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .card-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #a8b2d1;
+        }
+
+        /* 区域分隔线 */
+        .section-divider {
+            position: relative;
+            height: 80px;
+            margin: 4rem 0;
+            overflow: hidden;
+        }
+
+        .divider-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(26,58,95,0.8)"></path></svg>');
+            background-size: 1200px 100px;
+            animation: wave 12s linear infinite;
+        }
+
+        .divider-mountain {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="rgba(230,215,184,0.3)"></path><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="rgba(230,215,184,0.3)"></path><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="rgba(230,215,184,0.3)"></path></svg>');
+            background-size: 1200px 100px;
+            animation: wave 15s linear infinite reverse;
+        }
+
+        @keyframes wave {
+            0% {
+                background-position-x: 0;
+            }
+
+            100% {
+                background-position-x: 1200px;
+            }
+        }
+
+        /* 特色专题区 */
+        .feature-section {
+            margin-bottom: 4rem;
+        }
+
+        .feature-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            cursor: pointer;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.6);
+            z-index: 1;
+            transition: background 0.3s;
+        }
+
+        .feature-card:hover::before {
+            background: rgba(10, 25, 47, 0.4);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .feature-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-title {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        .feature-theme {
+            font-size: 1rem;
+            color: #e6d7b8;
+            font-style: italic;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        .feature-content {
+            padding: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-highlights {
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-title {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 0.8rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        .highlight-list {
+            list-style-type: none;
+        }
+
+        .highlight-list li {
+            padding: 0.5rem 0;
+            color: #e6d7b8;
+            position: relative;
+            padding-left: 1.5rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        .highlight-list li:before {
+            content: '•';
+            color: #d4af37;
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+
+        .feature-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #a8b2d1;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        /* 旅行故事区 */
+        .story-section {
+            margin-bottom: 4rem;
+        }
+
+        .story-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 2rem;
+        }
+
+        .story-card {
+            background: rgba(26, 58, 95, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .story-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: #d4af37;
+        }
+
+        .story-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .story-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 1rem;
+            border: 2px solid #d4af37;
+            background: #0a192f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d4af37;
+            font-size: 1.5rem;
+        }
+
+        .story-user {
+            flex: 1;
+        }
+
+        .story-username {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 0.3rem;
+        }
+
+        .story-date {
+            font-size: 0.9rem;
+            color: #a8b2d1;
+        }
+
+        .story-rating {
+            color: #d4af37;
+        }
+
+        .story-title {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-family: 'Ma Shan Zheng', cursive;
+        }
+
+        .story-content {
+            font-size: 1rem;
+            color: #e6d7b8;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .story-content::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .story-content::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 10px;
+        }
+
+        .story-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .story-tag {
+            background: rgba(212, 175, 55, 0.3);
+            color: #e6d7b8;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* 文化解读区 */
+        .interpretation-section {
+            margin-bottom: 4rem;
+        }
+
+        .interpretation-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .interpretation-card {
+            background: rgba(26, 58, 95, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .interpretation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .interpretation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: #d4af37;
+        }
+
+        .interpretation-title {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-family: 'Ma Shan Zheng', cursive;
+        }
+
+        .interpretation-description {
+            font-size: 1rem;
+            color: #e6d7b8;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .interpretation-source {
+            font-size: 0.9rem;
+            color: #a8b2d1;
+            font-style: italic;
+            margin-bottom: 1rem;
+            border-left: 2px solid #d4af37;
+            padding-left: 1rem;
+        }
+
+        .read-more {
+            display: inline-block;
+            background: #d4af37;
+            color: #0a192f;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background 0.3s;
+            margin-top: 1rem;
+        }
+
+        .read-more:hover {
+            background: #c19d2e;
+        }
+
+        /* 行旅页面特有样式 */
+        #travel-page {
+            background: linear-gradient(135deg, #1a3a5f 0%, #0a192f 50%, #1a3a5f 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* 筛选栏 */
+        .filter-section {
+            background: rgba(26, 58, 95, 0.8);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 3rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 景点展示区 */
+        .attractions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .attraction-card {
+            background: rgba(26, 58, 95, 0.8);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .attraction-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 路线推荐区 */
+        .routes-section {
+            margin-bottom: 4rem;
+        }
+
+        .routes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 2rem;
+        }
+
+        .route-card {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .route-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.6);
+            z-index: 1;
+        }
+
+        .route-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .route-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .route-title {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        .route-theme {
+            font-size: 1rem;
+            color: #e6d7b8;
+            font-style: italic;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        .route-content {
+            padding: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .route-highlights {
+            margin-bottom: 1.5rem;
+        }
+
+        .route-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #a8b2d1;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        /* 旅行分享区 */
+        .share-section {
+            margin-bottom: 4rem;
+        }
+
+        .share-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .share-card {
+            background: rgba(26, 58, 95, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .share-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .share-title {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-family: 'Ma Shan Zheng', cursive;
+        }
+
+        .share-description {
+            font-size: 1rem;
+            color: #e6d7b8;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .share-button {
+            background: #d4af37;
+            color: #0a192f;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .share-button:hover {
+            background: #c19d2e;
+        }
+
+        /* 关于页面特有样式 */
+        #about-page {
+            background: linear-gradient(135deg, rgba(26, 58, 95, 0.85) 0%, rgba(10, 25, 47, 0.85) 50%, rgba(26, 58, 95, 0.85) 100%),
+                url('images/泰山云海.jpg') center/cover no-repeat fixed;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* 团队介绍区 */
+        .team-section {
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #ffffff;
+            margin: 3rem 0 2rem;
+            text-align: center;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title::before,
+        .section-title::after {
+            content: '❖';
+            color: #d4af37;
+            margin: 0 15px;
+            font-size: 1.5rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-card {
+            background: rgba(26, 58, 95, 0.8);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #d4af37, #e6d7b8, #d4af37);
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .member-name {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            position: relative;
+        }
+
+        .member-name::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background-color: #d4af37;
+        }
+
+        .member-role {
+            font-size: 1.2rem;
+            color: #d4af37;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .member-description {
+            font-size: 1rem;
+            color: #e6d7b8;
+            line-height: 1.6;
+        }
+
+        /* 项目介绍区 */
+        .project-section {
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .project-content {
+            background: rgba(26, 58, 95, 0.8);
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .project-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #d4af37, #e6d7b8, #d4af37);
+            border-radius: 15px 15px 0 0;
+        }
+
+        .content-title {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .content-title::before,
+        .content-title::after {
+            content: '✦';
+            color: #d4af37;
+            margin: 0 10px;
+            font-size: 1.2rem;
+        }
+
+        .content-text {
+            font-size: 1.1rem;
+            color: #e6d7b8;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        /* 联系方式区 */
+        .contact-section {
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .contact-content {
+            background: rgba(26, 58, 95, 0.8);
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .contact-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #d4af37, #e6d7b8, #d4af37);
+            border-radius: 15px 15px 0 0;
+        }
+
+        .contact-info {
+            font-size: 1.2rem;
+            color: #e6d7b8;
+            line-height: 2;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-highlight {
+            color: #d4af37;
+            font-weight: bold;
+            margin-left: 10px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        /* 装饰元素 */
+        .decoration {
+            position: absolute;
+            z-index: 1;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .decoration-1 {
+            top: 10%;
+            left: 5%;
+            width: 100px;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,10 L60,40 L90,50 L60,60 L50,90 L40,60 L10,50 L40,40 Z" fill="%23d4af37"/></svg>') center/contain no-repeat;
+        }
+
+        .decoration-2 {
+            top: 20%;
+            right: 8%;
+            width: 80px;
+            height: 80px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="%23d4af37" stroke-width="5" fill="none"/><circle cx="50" cy="50" r="25" stroke="%23d4af37" stroke-width="3" fill="none"/></svg>') center/contain no-repeat;
+        }
+
+        .decoration-3 {
+            bottom: 15%;
+            left: 7%;
+            width: 120px;
+            height: 120px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="50,10 80,90 20,90" fill="%23d4af37"/></svg>') center/contain no-repeat;
+        }
+
+        .decoration-4 {
+            bottom: 25%;
+            right: 5%;
+            width: 90px;
+            height: 90px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" stroke="%23d4af37" stroke-width="5" fill="none"/><rect x="30" y="30" width="40" height="40" stroke="%23d4af37" stroke-width="3" fill="none"/></svg>') center/contain no-repeat;
+        }
+
+        /* 个人页面特有样式 */
+        #profile-page {
+            background: var(--primary-bg);
+            color: var(--text-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        /* 装饰元素 */
+        .decoration {
+            position: fixed;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .decoration-circle {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            top: 10%;
+            right: 10%;
+        }
+
+        .decoration-square {
+            width: 200px;
+            height: 200px;
+            background: var(--accent-color);
+            bottom: 10%;
+            left: 5%;
+            transform: rotate(45deg);
+        }
+
+        .decoration-line {
+            height: 2px;
+            width: 80%;
+            background: var(--accent-color);
+            top: 50%;
+            left: 10%;
+            transform: rotate(-15deg);
+        }
+
+        /* 用户信息区 */
+        .user-section {
+            margin-bottom: 3rem;
+        }
+
+        .user-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .user-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary-bg);
+            font-family: 'Ma Shan Zheng', cursive;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-avatar .avatar-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            font-family: 'Ma Shan Zheng', cursive;
+        }
+
+        .user-bio {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .edit-btn {
+            background: var(--accent-color);
+            color: var(--primary-bg);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .edit-btn:hover {
+            background: #c19d2e;
+        }
+
+        /* 收藏区域 */
+        .collections-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .add-collection-btn {
+            background: var(--accent-color);
+            color: var(--primary-bg);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .add-collection-btn:hover {
+            background: #c19d2e;
+        }
+
+        .collections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .collection-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .collection-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .collection-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .collection-content {
+            padding: 1.5rem;
+        }
+
+        .collection-title {
+            font-size: 1.3rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            font-family: 'Ma Shan Zheng', cursive;
+        }
+
+        .collection-date {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+
+        .collection-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .collection-tag {
+            background: var(--accent-color);
+            color: var(--primary-bg);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .remove-collection {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .collection-card:hover .remove-collection {
+            opacity: 1;
+        }
+
+        /* 设置区域 */
+        .settings-section {
+            margin-bottom: 3rem;
+        }
+
+        .settings-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] .setting-item {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-label {
+            font-size: 1.1rem;
+            color: var(--text-color);
+        }
+
+        .setting-description {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.7;
+            margin-top: 0.3rem;
+        }
+
+        /* 开关样式 */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--accent-color);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
+
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--shadow);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            font-family: 'Ma Shan Zheng', cursive;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--secondary-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        [data-theme="light"] .form-input {
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--secondary-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        [data-theme="light"] .form-textarea {
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: var(--primary-bg);
+        }
+
+        .btn-primary:hover {
+            background: #c19d2e;
+        }
+
+        .btn-secondary {
+            background: var(--secondary-bg);
+            color: var(--text-color);
+        }
+
+        .btn-secondary:hover {
+            background: #2a4a7a;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 968px) {
+            .gallery-container {
+                flex-direction: column;
+            }
+
+            .main-title {
+                font-size: 4rem;
+            }
+
+            .sub-title {
+                font-size: 2rem;
+            }
+
+            .intro-text {
+                font-size: 3rem;
+            }
+
+            .gallery-title {
+                font-size: 2.5rem;
+            }
+
+            .culture-grid,
+            .attractions-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+
+            .routes-container,
+            .feature-container {
+                grid-template-columns: 1fr;
+            }
+
+            .page-title {
+                font-size: 2.8rem;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .collections-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .user-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem 5%;
+            }
+
+            .nav-links {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .nav-links li {
+                margin: 0.5rem;
+            }
+
+            .main-title {
+                font-size: 3rem;
+            }
+
+            .sub-title {
+                font-size: 1.8rem;
+            }
+
+            .intro-text {
+                font-size: 2.5rem;
+            }
+
+            .gallery-title {
+                font-size: 2rem;
+            }
+
+            .nav-tooltip {
+                display: none;
+            }
+
+            .search-container {
+                max-width: 500px;
+            }
+
+            .page-title {
+                font-size: 2.2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .filter-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .culture-grid,
+            .attractions-grid,
+            .interpretation-container {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .top-decoration {
+                height: 80px;
+            }
+
+            .cloud {
+                display: none;
+            }
+
+            .story-container {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-content,
+            .contact-content {
+                padding: 1.5rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+            }
+
+            .contact-highlight {
+                margin-left: 0;
+                margin-top: 5px;
+            }
+
+            .decoration {
+                display: none;
+            }
+
+            .collections-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body data-theme="dark">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <div class="mountain-logo">
+                <div class="mountain-peak"></div>
+                <div class="mountain-peak"></div>
+                <div class="mountain-peak"></div>
+                <div class="mountain-peak"></div>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="nav-link" data-page="home-page">首页</a></li>
+            <li>
+                <a href="#" class="nav-link" data-page="landscape-page">山河</a>
+                <div class="nav-tooltip">不想读文字，我只想看中国的美</div>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-page="human-page">人间</a>
+                <div class="nav-tooltip">欢迎光临！有故事的人间正在营业中~</div>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-page="travel-page">行旅</a>
+                <div class="nav-tooltip">想去哪？我们帮你规划~</div>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-page="about-page">关于</a>
+                <div class="nav-tooltip">了解我们、项目与故事</div>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-page="profile-page">个人</a>
+                <div class="nav-tooltip">用户的个人主页预览</div>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- 主页 -->
+    <div id="home-page" class="page-container active">
+        <!-- 开场动画 -->
+        <div class="intro-animation" id="introAnimation">
+            <div class="intro-text">目光所及，皆是华夏</div>
+            <div class="subtitle">Boundless China, Within Your Sight</div>
+        </div>
+
+        <!-- 视频背景 -->
+        <video class="video-background" autoplay muted loop>
+            <source src="索松村.mp4" type="video/mp4">
+        </video>
+        <div class="overlay"></div>
+
+        <!-- 分屏容器 -->
+        <div class="screen-container">
+            <!-- 标题屏幕 -->
+            <div class="title-screen" id="titleScreen">
+                <div class="title-content">
+                    <h1 class="main-title">目光所及，皆是华夏</h1>
+                    <h2 class="sub-title">Boundless China, Within Your Sight</h2>
+
+                    <!-- 搜索栏 -->
+                    <div class="search-section">
+                        <div class="search-container">
+                            <input type="text" class="search-input" placeholder="山在·风在·你想去哪里？">
+                            <button class="search-button">搜索</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 滚动指示器 -->
+                <div class="scroll-indicator">
+                    向下滚动探索更多
+                </div>
+            </div>
+
+            <!-- 导览屏幕 -->
+            <div class="gallery-screen" id="galleryScreen">
+                <h2 class="gallery-title">华夏风光导览</h2>
+                <div class="gallery-container">
+                    <!-- 自然风光 -->
+                    <div class="gallery-category">
+                        <div class="category-title">自然风光</div>
+                        <div class="image-carousel">
+                            <div class="carousel-slide active">
+                                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                                    alt="山脉" class="carousel-image">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="三亚蜈支洲岛.jpg" alt="三亚蜈支洲岛" class="carousel-image">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="新疆 夏塔.jpg" alt="新疆夏塔" class="carousel-image">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="世界最高桥-贵州花江峡谷大桥.jpg" alt="贵州花江峡谷大桥" class="carousel-image">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 人文景观 -->
+                    <div class="gallery-category">
+                        <div class="category-title">人文景观</div>
+                        <div class="image-carousel">
+                            <div class="carousel-slide active">
+                                <img src="https://images.unsplash.com/photo-1518638150340-f706e86654de?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                                    alt="城市风光" class="carousel-image">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="故宫角楼.png" alt="故宫角楼" class="carousel-image">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="https://images.unsplash.com/photo-1551641506-ee5bf4cb45f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                                    alt="北京" class="carousel-image">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="中山纪念堂(1).png" alt="中山纪念堂" class="carousel-image">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 城市风光 -->
+                    <div class="gallery-category">
+                        <div class="category-title">城市风光</div>
+                        <div class="image-carousel">
+                            <div class="carousel-slide active">
+                                <img src="海河 金湾.jpg" alt="海河金湾" class="carousel-image">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="五大道.jpg" alt="五大道" class="carousel-image">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="大唐不夜城.png" alt="大唐不夜城" class="carousel-image">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="山城.jpg" alt="山城" class="carousel-image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 滚动指示器 -->
+                <div class="scroll-indicator">
+                    向上滚动返回
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 山河页面 -->
+    <div id="landscape-page" class="page-container">
+        <!-- 地图引导页 -->
+        <div class="map-intro" id="mapIntro">
+            <div class="map-content">
+                <h1 class="map-title">目光所及，皆是华夏</h1>
+                <p class="map-subtitle">沿着金线，穿越万里山河<br>从北国雪山到南国海岸，探索中华大地的壮美风光</p>
+                <button class="start-button" id="startButton">开始探索</button>
+            </div>
+        </div>
+
+        <!-- 小地图导航 -->
+        <div class="mini-map" id="miniMap">
+            <img src="images/china-map.jpg" alt="中国地图" class="mini-map-image">
+            <div class="location-dot" id="locationDot"></div>
+        </div>
+
+        <!-- 进度指示器 -->
+        <div class="progress-indicator">
+            <div class="indicator-dot active" data-scene="1"></div>
+            <div class="indicator-dot" data-scene="2"></div>
+            <div class="indicator-dot" data-scene="3"></div>
+            <div class="indicator-dot" data-scene="4"></div>
+            <div class="indicator-dot" data-scene="5"></div>
+        </div>
+
+        <!-- 滚动指示器 -->
+        <div class="scroll-indicator">
+            向下滚动探索华夏山河
+        </div>
+
+        <!-- 场景容器 -->
+        <div class="scenes-container" id="scenesContainer">
+            <!-- 场景1: 北方雪山 -->
+            <div class="scene active" id="scene1">
+                <div class="scene-bg"></div>
+                <div class="transition-layer"></div>
+                <div class="particles-container" id="particles1"></div>
+                <div class="content">
+                    <span class="scene-tag">北国风光</span>
+                    <h2 class="scene-title">冰雪奇缘 · 北国雪山</h2>
+                    <p class="scene-description">
+                        北国风光，千里冰封，万里雪飘。巍峨的雪山在阳光下闪耀着银光，仿佛天地间最纯净的画卷。
+                        这里是中国北方的壮丽山河，冰雪覆盖的山脉延绵不绝，宛如一条银色的巨龙横亘在天地之间。
+                    </p>
+                    <p class="scene-description">
+                        从长白山的皑皑白雪到阿尔山的雾凇奇观，北国的冰雪世界令人心驰神往。冬季的北国更是银装素裹，
+                        宛如童话世界，是摄影和探险的理想之地。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 场景2: 戈壁沙漠 -->
+            <div class="scene" id="scene2">
+                <div class="scene-bg"></div>
+                <div class="transition-layer"></div>
+                <div class="particles-container" id="particles2"></div>
+                <div class="content">
+                    <span class="scene-tag">大漠孤烟</span>
+                    <h2 class="scene-title">金色沙海 · 戈壁奇观</h2>
+                    <p class="scene-description">
+                        大漠孤烟直，长河落日圆。金色的沙丘在风中起伏，形成一道道优美的曲线。
+                        这里是中国的戈壁沙漠，广袤无垠的沙海让人感受到自然的壮阔与生命的顽强。
+                    </p>
+                    <p class="scene-description">
+                        从敦煌的鸣沙山月牙泉到塔克拉玛干的浩瀚沙海，戈壁的壮美景色令人叹为观止。
+                        沙漠中的绿洲如珍珠般散落，见证了生命在极端环境下的奇迹。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 场景3: 中原平原 -->
+            <div class="scene" id="scene3">
+                <div class="scene-bg"></div>
+                <div class="transition-layer"></div>
+                <div class="particles-container" id="particles3"></div>
+                <div class="content">
+                    <span class="scene-tag">沃野千里</span>
+                    <h2 class="scene-title">金色麦浪 · 中原沃土</h2>
+                    <p class="scene-description">
+                        沃野千里，稻花香里说丰年。广袤的平原上，金色的麦浪随风起伏，宛如大地的呼吸。
+                        这里是中华文明的发源地，中原大地的肥沃土壤孕育了五千年的华夏文明。
+                    </p>
+                    <p class="scene-description">
+                        从华北平原的麦田到长江中下游的稻田，这片土地承载着中华民族的农耕文明。
+                        四季更替，春华秋实，大地以最慷慨的姿态回馈着辛勤耕耘的人们。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 场景4: 江南水乡 -->
+            <div class="scene" id="scene4">
+                <div class="scene-bg"></div>
+                <div class="transition-layer"></div>
+                <div class="particles-container" id="particles4"></div>
+                <div class="content">
+                    <span class="scene-tag">水墨江南</span>
+                    <h2 class="scene-title">小桥流水 · 江南水乡</h2>
+                    <p class="scene-description">
+                        江南好，风景旧曾谙。日出江花红胜火，春来江水绿如蓝。
+                        小桥流水，古镇人家，构成了一幅幅动人的水墨画卷，这里是诗意栖居的江南水乡。
+                    </p>
+                    <p class="scene-description">
+                        从西湖的潋滟波光到周庄的古朴石桥，江南的柔美风光令人流连忘返。
+                        春季的江南更是花团锦簇，美不胜收，是休闲度假和文化探索的绝佳去处。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 场景5: 南方海岸 -->
+            <div class="scene" id="scene5">
+                <div class="scene-bg"></div>
+                <div class="transition-layer"></div>
+                <div class="particles-container" id="particles5"></div>
+                <div class="content">
+                    <span class="scene-tag">碧海蓝天</span>
+                    <h2 class="scene-title">椰风海韵 · 南方海岸</h2>
+                    <p class="scene-description">
+                        面朝大海，春暖花开。蔚蓝的海水拍打着金色的沙滩，椰林在微风中摇曳。
+                        这里是中国的南方海岸，阳光、沙滩、海浪构成了一幅热带风情的美丽画卷。
+                    </p>
+                    <p class="scene-description">
+                        从三亚的亚龙湾到厦门的鼓浪屿，南国的海岸线蜿蜒曲折，风景如画。
+                        这里不仅有优美的自然景观，还有丰富的海洋文化和独特的地方风情。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 人间页面 -->
+    <div id="human-page" class="page-container">
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <div class="content-wrapper">
+                <!-- 顶部装饰 -->
+                <div class="top-decoration">
+                    <div class="cloud"></div>
+                    <div class="cloud"></div>
+                    <div class="cloud"></div>
+                    <div class="cloud"></div>
+                </div>
+
+                <!-- 标题区域 -->
+                <div class="page-header">
+                    <h1 class="page-title">人间 · 烟火气</h1>
+                    <p class="page-subtitle">探索中国各地的人文风情，感受市井生活的温度。从北国雪原到南国海岸，从西部戈壁到东海之滨，每一处风景都值得驻足。</p>
+                </div>
+
+                <!-- 筛选栏 -->
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <div class="filter-label">地区</div>
+                        <select class="filter-select" id="regionFilter">
+                            <option value="all">全部地区</option>
+                            <option value="north">华北地区</option>
+                            <option value="east">华东地区</option>
+                            <option value="south">华南地区</option>
+                            <option value="southwest">西南地区</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <div class="filter-label">人文类型</div>
+                        <select class="filter-select" id="typeFilter">
+                            <option value="all">全部类型</option>
+                            <option value="festival">民俗节庆</option>
+                            <option value="life">市井生活</option>
+                            <option value="craft">传统手工艺</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 人文展示区 -->
+                <h2 class="section-title">人文风情</h2>
+                <div class="culture-grid" id="cultureGrid">
+                    <!-- 人文卡片将通过JavaScript动态生成 -->
+                </div>
+
+                <!-- 特色专题区 -->
+                <div class="feature-section">
+                    <h2 class="section-title">特色专题</h2>
+                    <div class="feature-container">
+                        <!-- 传统节庆专题 -->
+                        <div class="feature-card" style="background: url('images/传统节庆.jpg') center/cover no-repeat;"
+                            data-link="traditional-festivals.html">
+                            <div class="feature-header">
+                                <h3 class="feature-title">传统节庆</h3>
+                                <p class="feature-theme">岁时节令，民俗庆典</p>
+                            </div>
+                            <div class="feature-content">
+                                <div class="feature-highlights">
+                                    <h4 class="highlight-title">主要亮点</h4>
+                                    <ul class="highlight-list">
+                                        <li>春节庙会与年俗</li>
+                                        <li>端午龙舟竞渡</li>
+                                        <li>中秋赏月习俗</li>
+                                        <li>少数民族特色节庆</li>
+                                    </ul>
+                                </div>
+                                <div class="feature-details">
+                                    <span>推荐季节:全年</span>
+                                    <span>适合人群：文化体验者</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 市井生活专题 -->
+                        <div class="feature-card" style="background: url('images/市井生活.jpg') center/cover no-repeat;"
+                            data-link="street-life.html">
+                            <div class="feature-header">
+                                <h3 class="feature-title">市井生活</h3>
+                                <p class="feature-theme">人间烟火，生活百态</p>
+                            </div>
+                            <div class="feature-content">
+                                <div class="feature-highlights">
+                                    <h4 class="highlight-title">主要亮点</h4>
+                                    <ul class="highlight-list">
+                                        <li>老北京胡同文化</li>
+                                        <li>江南水乡生活</li>
+                                        <li>川渝茶馆文化</li>
+                                        <li>岭南市集风情</li>
+                                    </ul>
+                                </div>
+                                <div class="feature-details">
+                                    <span>推荐季节:全年</span>
+                                    <span>适合人群：生活体验者</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 旅行故事区 -->
+                <div class="story-section">
+                    <h2 class="section-title">旅行者故事</h2>
+                    <div class="story-container">
+                        <!-- 第一个故事 -->
+                        <div class="story-card">
+                            <div class="story-header">
+                                <div class="story-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="story-user">
+                                    <h3 class="story-username">江南游子</h3>
+                                    <p class="story-date">2023年5月12日</p>
+                                </div>
+                                <div class="story-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <h3 class="story-title">江南水乡的温柔时光</h3>
+                            <div class="story-content">
+                                <p>这次江南之行让我真正体会到了什么是"小桥流水人家"的意境。在苏州的平江路上，我遇到了一位正在绣花的阿姨，她告诉我她已经在这里生活了六十多年。</p>
+                                <p>每天清晨，她都会在自家门前的小河边洗菜，然后开始一天的刺绣工作。她的作品精美绝伦，每一针每一线都蕴含着对生活的热爱。</p>
+                                <p>最让我感动的是，她不仅教我简单的刺绣技巧，还邀请我品尝了她亲手制作的桂花糕。那种甜而不腻的味道，配上龙井茶的清香，让我瞬间明白了什么是江南生活的精致与优雅。</p>
+                                <p>傍晚时分，我坐在乌镇的石桥上，看着夕阳西下，听着远处传来的评弹声，感觉时间仿佛在这一刻静止了。这种慢节奏的生活，这种人与人之间的温情，是城市生活中难以寻觅的珍宝。</p>
+                            </div>
+                            <div class="story-tags">
+                                <span class="story-tag">江南水乡</span>
+                                <span class="story-tag">传统手工艺</span>
+                                <span class="story-tag">慢生活</span>
+                            </div>
+                        </div>
+
+                        <!-- 第二个故事 -->
+                        <div class="story-card">
+                            <div class="story-header">
+                                <div class="story-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="story-user">
+                                    <h3 class="story-username">高原行者</h3>
+                                    <p class="story-date">2023年7月20日</p>
+                                </div>
+                                <div class="story-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                            <h3 class="story-title">川西高原上的信仰之旅</h3>
+                            <div class="story-content">
+                                <p>这次川西之行让我对信仰有了全新的理解。在色达佛学院，我被那一片红色海洋深深震撼。成千上万的僧舍依山而建，在阳光下熠熠生辉。</p>
+                                <p>我遇到了一位年轻的喇嘛，他只有18岁，却已经在佛学院学习了5年。他告诉我，他来自青海的一个小村庄，从小就对佛法有着浓厚的兴趣。</p>
+                                <p>他带我参观了佛学院，讲解了藏传佛教的基本教义。最让我印象深刻的是，每天清晨，整个山谷都会回荡着诵经声，那种庄严与神圣，让人不由自主地肃然起敬。</p>
+                                <p>在离开的前一天，我参加了当地的转山活动。虽然过程很辛苦，但当我站在山顶，看着远处的雪山和脚下的经幡时，内心感受到了一种前所未有的宁静与平和。</p>
+                                <p>这次旅行让我明白，信仰不仅仅是宗教仪式，更是一种生活态度，一种对生命的敬畏与尊重。</p>
+                            </div>
+                            <div class="story-tags">
+                                <span class="story-tag">川西高原</span>
+                                <span class="story-tag">藏传佛教</span>
+                                <span class="story-tag">信仰之旅</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 文化解读区 -->
+                <div class="interpretation-section">
+                    <h2 class="section-title">文化解读</h2>
+                    <div class="interpretation-container">
+                        <div class="interpretation-card" data-link="hutong-culture.html">
+                            <h3 class="interpretation-title">胡同里的京味儿生活</h3>
+                            <p class="interpretation-description">
+                                北京的胡同不只是建筑，更是一种生活方式。清晨，大爷大妈们在胡同口遛鸟、下棋；午后，孩子们在巷子里追逐嬉戏；傍晚，家家户户飘出饭菜香。这种邻里守望、相互照应的生活，正是老北京最真实的人间烟火。
+                            </p>
+                            <p class="interpretation-source">"在胡同住了大半辈子，这里的一砖一瓦都有故事。" —— 胡同居民张大爷</p>
+                            <a href="https://www.beijing.gov.cn/renwen/zt/xmjc/ht/bjhtgs/bjdhtwh/201611/t20161129_1876241.html"
+                                class="read-more">了解更多</a>
+                        </div>
+
+                        <div class="interpretation-card" data-link="jiangnan-life.html">
+                            <h3 class="interpretation-title">江南水乡的慢生活哲学</h3>
+                            <p class="interpretation-description">
+                                江南人不急不躁的生活态度，源于他们对自然的尊重和对生活的理解。小桥流水不只是风景，更是生活的节奏。在这里，时间似乎慢了下来，人们更愿意花一个下午品茶、听曲、闲聊，享受生活的本真。
+                            </p>
+                            <p class="interpretation-source">"我们这里的人懂得，生活不是赶路，而是欣赏沿途的风景。" —— 苏州评弹艺人</p>
+                            <a href="http://www.wuzhen.com.cn/" class="read-more">了解更多</a>
+                        </div>
+
+                        <div class="interpretation-card" data-link="teahouse-culture.html">
+                            <h3 class="interpretation-title">川渝茶馆里的江湖气</h3>
+                            <p class="interpretation-description">
+                                在川渝，茶馆不只是喝茶的地方，更是信息交流中心、社交场所和休闲天地。这里三教九流汇聚，从商贾政要到平民百姓，都能找到自己的位置。一壶茶，可以喝出人生百态，品出世事变迁。</p>
+                            <p class="interpretation-source">"在茶馆坐了三十年，听过无数故事，自己也成了故事里的人。" —— 成都老茶客</p>
+                            <a href="https://baijiahao.baidu.com/s?id=1772020912968826681&wfr=spider&for=pc"
+                                class="read-more">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 行旅页面 -->
+    <div id="travel-page" class="page-container">
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <div class="content-wrapper">
+                <!-- 顶部装饰 -->
+                <div class="top-decoration">
+                    <div class="cloud"></div>
+                    <div class="cloud"></div>
+                    <div class="cloud"></div>
+                    <div class="cloud"></div>
+                </div>
+
+                <!-- 标题区域 -->
+                <div class="page-header">
+                    <h1 class="page-title">行旅 · 探索华夏</h1>
+                    <p class="page-subtitle">踏上旅程，发现中国最美的风景与人文。从北国雪原到南国海岸，从西部戈壁到东海之滨，每一处风景都值得驻足。</p>
+                </div>
+
+                <!-- 筛选栏 -->
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <div class="filter-label">地区</div>
+                        <select class="filter-select" id="regionFilter">
+                            <option value="all">全部地区</option>
+                            <option value="north">华北地区</option>
+                            <option value="east">华东地区</option>
+                            <option value="south">华南地区</option>
+                            <option value="southwest">西南地区</option>
+                            <option value="northwest">西北地区</option>
+                            <option value="northeast">东北地区</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <div class="filter-label">类型</div>
+                        <select class="filter-select" id="typeFilter">
+                            <option value="all">全部类型</option>
+                            <option value="nature">自然风光</option>
+                            <option value="culture">人文古迹</option>
+                            <option value="city">城市地标</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <div class="filter-label">季节</div>
+                        <select class="filter-select" id="seasonFilter">
+                            <option value="all">全部季节</option>
+                            <option value="spring">春季</option>
+                            <option value="summer">夏季</option>
+                            <option value="autumn">秋季</option>
+                            <option value="winter">冬季</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 景点展示区 -->
+                <h2 class="section-title">精选景点</h2>
+                <div class="attractions-grid" id="attractionsGrid">
+                    <!-- 景点卡片将通过JavaScript动态生成 -->
+                </div>
+
+                <!-- 区域分隔线 -->
+                <div class="section-divider">
+                    <div class="divider-wave"></div>
+                    <div class="divider-mountain"></div>
+                </div>
+
+                <div class="routes-section">
+                    <h2 class="section-title">经典路线推荐</h2>
+                    <div class="routes-container">
+                        <!-- 第一个卡片：江南水乡之旅 -->
+                        <div class="route-card jiangnan" style="background-image: url('images/jiangnan-bg.jpg')">
+                            <div class="route-header">
+                                <h3 class="route-title">江南水乡之旅</h3>
+                                <p class="route-theme">小桥流水人家，诗意栖居</p>
+                            </div>
+                            <div class="route-content">
+                                <div class="route-highlights">
+                                    <h4 class="highlight-title">主要亮点</h4>
+                                    <ul class="highlight-list">
+                                        <li>杭州西湖十景漫步</li>
+                                        <li>苏州古典园林探秘</li>
+                                        <li>乌镇西塘古镇体验</li>
+                                        <li>南京夫子庙文化探索</li>
+                                    </ul>
+                                </div>
+                                <div class="route-details">
+                                    <span>建议时长:5-7天</span>
+                                    <span>适合人群：文化爱好者、摄影爱好者</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第二个卡片：丝绸之路探秘 -->
+                        <div class="route-card silk-road" style="background-image: url('images/silkroad-bg.jpg')">
+                            <div class="route-header">
+                                <h3 class="route-title">丝绸之路探秘</h3>
+                                <p class="route-theme">千年古道，文明交融</p>
+                            </div>
+                            <div class="route-content">
+                                <div class="route-highlights">
+                                    <h4 class="highlight-title">主要亮点</h4>
+                                    <ul class="highlight-list">
+                                        <li>西安兵马俑与古城墙</li>
+                                        <li>敦煌莫高窟艺术宝库</li>
+                                        <li>嘉峪关长城西端</li>
+                                        <li>吐鲁番火焰山与葡萄沟</li>
+                                    </ul>
+                                </div>
+                                <div class="route-details">
+                                    <span>建议时长:8-10天</span>
+                                    <span>适合人群：历史爱好者、探险者</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 区域分隔线 -->
+                <div class="section-divider">
+                    <div class="divider-wave"></div>
+                    <div class="divider-mountain"></div>
+                </div>
+
+                <!-- 旅行分享区 -->
+                <div class="share-section">
+                    <h2 class="section-title">分享旅行故事</h2>
+                    <div class="share-container">
+                        <div class="share-card">
+                            <h3 class="share-title">分享你的旅行</h3>
+                            <p class="share-description">记录下你的旅行见闻，分享给其他旅行爱好者，让更多人发现中国的美丽。</p>
+                            <button class="share-button" id="shareStoryBtn">分享我的故事</button>
+                        </div>
+
+                        <div class="share-card">
+                            <h3 class="share-title">收藏心仪景点</h3>
+                            <p class="share-description">将你喜欢的景点加入收藏，方便日后规划行程，不错过任何精彩。</p>
+                            <button class="share-button" id="showFavoritesBtn">查看我的收藏</button>
+                        </div>
+
+                        <div class="share-card">
+                            <h3 class="share-title">定制旅行路线</h3>
+                            <p class="share-description">根据你的兴趣和时间，定制个性化的旅行路线，开启专属旅程。</p>
+                            <button class="share-button" id="customRouteBtn">定制路线</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 关于页面 -->
+    <div id="about-page" class="page-container">
+        <!-- 装饰元素 -->
+        <div class="decoration decoration-1"></div>
+        <div class="decoration decoration-2"></div>
+        <div class="decoration decoration-3"></div>
+        <div class="decoration decoration-4"></div>
+
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <div class="content-wrapper">
+                <!-- 标题区域 -->
+                <div class="page-header">
+                    <h1 class="page-title">关于我们</h1>
+                    <p class="page-subtitle">
+                        "目光所及，皆是华夏"是一个展示中国壮美山河的网页项目，我们希望通过现代网页技术，让更多人领略中国各地的自然风光与人文景观，用代码绘制出华夏大地的壮丽画卷</p>
+                </div>
+
+                <!-- 团队成员展示 -->
+                <div class="team-section">
+                    <h2 class="section-title">团队成员</h2>
+                    <div class="team-grid">
+                        <div class="team-card">
+                            <h3 class="member-name">Jacey</h3>
+                            <div class="member-role">UI设计</div>
+                            <p class="member-description">负责项目的整体视觉风格和用户体验设计，注重细节与美学表达</p>
+                        </div>
+
+                        <div class="team-card">
+                            <h3 class="member-name">MC CITY.</h3>
+                            <div class="member-role">UI设计</div>
+                            <p class="member-description">专注于界面交互设计和视觉元素创作，追求简约而不简单的设计理念</p>
+                        </div>
+
+                        <div class="team-card">
+                            <h3 class="member-name">cronicle</h3>
+                            <div class="member-role">前端开发</div>
+                            <p class="member-description">负责网站架构和核心功能开发，确保代码质量与性能优化</p>
+                        </div>
+
+                        <div class="team-card">
+                            <h3 class="member-name">Neovita</h3>
+                            <div class="member-role">前端开发</div>
+                            <p class="member-description">专注于交互效果实现和响应式布局，打造流畅的用户体验</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 项目介绍区 -->
+                <div class="project-section">
+                    <h2 class="section-title">项目背景</h2>
+                    <div class="project-content">
+                        <h3 class="content-title">参赛兴趣</h3>
+                        <p class="content-text">我们参加网页设计大赛是为了挑战自我，将创意与技术完美融合，在竞争中学习成长，展示当代大学生对网页设计的独特理解。</p>
+
+                        <h3 class="content-title">设计灵感</h3>
+                        <p class="content-text">灵感来源于中国传统的山水画意境和现代极简设计理念，融合古典美学与现代交互体验，在虚实之间寻找平衡，让用户在浏览中感受华夏山河的韵味。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 个人页面 -->
+    <div id="profile-page" class="page-container">
+        <!-- 装饰元素 -->
+        <div class="decoration decoration-circle"></div>
+        <div class="decoration decoration-square"></div>
+        <div class="decoration decoration-line"></div>
+
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <div class="content-wrapper">
+                <!-- 标题区域 -->
+                <div class="page-header">
+                    <h1 class="page-title">个人中心</h1>
+                    <p class="page-subtitle">管理您的个人信息和偏好设置</p>
+                </div>
+
+                <!-- 用户信息区 -->
+                <div class="user-section">
+                    <div class="user-card">
+                        <div class="user-avatar" id="avatarContainer">
+                            <div class="avatar-text">旅</div>
+                        </div>
+                        <div class="user-info">
+                            <h2 class="user-name" id="userNameDisplay">旅行者</h2>
+                            <p class="user-bio" id="userBioDisplay">热爱探索华夏美景的旅行爱好者，喜欢记录旅途中的点点滴滴。</p>
+                            <button class="edit-btn" id="editProfileBtn">编辑资料</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 收藏区域 -->
+                <div class="collections-section">
+                    <h2 class="section-title">
+                        我的收藏
+                        <button class="add-collection-btn" id="addCollectionBtn">添加收藏</button>
+                    </h2>
+                    <div class="collections-grid" id="collectionsGrid">
+                    </div>
+                </div>
+
+                <!-- 设置区域 -->
+                <div class="settings-section">
+                    <h2 class="section-title">偏好设置</h2>
+                    <div class="settings-card">
+                        <div class="setting-item">
+                            <div>
+                                <div class="setting-label">主题模式</div>
+                                <div class="setting-description">切换浅色/深色主题</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="themeToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div>
+                                <div class="setting-label">显示个人主页</div>
+                                <div class="setting-description">允许其他用户查看您的收藏和资料</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="profileVisibilityToggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 编辑资料模态框 -->
+        <div class="modal" id="editProfileModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">编辑个人资料</h3>
+                    <button class="close-modal" id="closeEditModal">&times;</button>
+                </div>
+                <form id="editProfileForm">
+                    <div class="form-group">
+                        <label class="form-label" for="userName">昵称</label>
+                        <input type="text" id="userName" class="form-input" placeholder="请输入您的昵称">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="userBio">个人简介</label>
+                        <textarea id="userBio" class="form-textarea" placeholder="请介绍一下自己..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="avatarUrl">头像URL</label>
+                        <input type="text" id="avatarUrl" class="form-input" placeholder="请输入头像图片URL">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelEdit">取消</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 添加收藏模态框 -->
+        <div class="modal" id="addCollectionModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">添加收藏</h3>
+                    <button class="close-modal" id="closeCollectionModal">&times;</button>
+                </div>
+                <form id="addCollectionForm">
+                    <div class="form-group">
+                        <label class="form-label" for="collectionTitle">景点名称</label>
+                        <input type="text" id="collectionTitle" class="form-input" placeholder="请输入景点名称">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="collectionImage">景点图片URL</label>
+                        <input type="text" id="collectionImage" class="form-input" placeholder="请输入景点图片URL">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="collectionTags">标签</label>
+                        <input type="text" id="collectionTags" class="form-input" placeholder="请输入标签，用逗号分隔">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelCollection">取消</button>
+                        <button type="submit" class="btn btn-primary">添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 页面切换功能
+        document.addEventListener('DOMContentLoaded', function () {
+            // 导航链接点击事件
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetPage = this.getAttribute('data-page');
+                    switchPage(targetPage);
+                });
+            });
+
+            // 切换页面函数
+            function switchPage(pageId) {
+                // 隐藏所有页面
+                document.querySelectorAll('.page-container').forEach(page => {
+                    page.classList.remove('active');
+                });
+
+                // 显示目标页面
+                document.getElementById(pageId).classList.add('active');
+
+                // 更新导航链接状态
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                document.querySelector(`.nav-link[data-page="${pageId}"]`).classList.add('active');
+
+                // 滚动到顶部
+                window.scrollTo(0, 0);
+            }
+
+            // 主页特有功能
+            const homePage = document.getElementById('home-page');
+            if (homePage) {
+                // 开场动画控制
+                const introAnimation = document.getElementById('introAnimation');
+
+                // 3秒后淡出开场动画
+                setTimeout(function () {
+                    introAnimation.style.opacity = '0';
+                    setTimeout(function () {
+                        introAnimation.style.display = 'none';
+                    }, 1500);
+                }, 3000);
+
+                // 导航栏滚动效果
+                window.addEventListener('scroll', function () {
+                    const navbar = document.querySelector('.navbar');
+                    if (window.scrollY > 50) {
+                        navbar.style.padding = '1rem 5%';
+                        navbar.style.backgroundColor = 'rgba(10, 25, 47, 0.95)';
+                    } else {
+                        navbar.style.padding = '1.5rem 5%';
+                        navbar.style.backgroundColor = 'rgba(10, 25, 47, 0.9)';
+                    }
+                });
+
+                // 搜索功能
+                const searchButton = document.querySelector('.search-button');
+                const searchInput = document.querySelector('.search-input');
+
+                if (searchButton && searchInput) {
+                    searchButton.addEventListener('click', function () {
+                        if (searchInput.value.trim() !== '') {
+                            alert('搜索: ' + searchInput.value);
+                            // 实际应用中这里应该执行搜索逻辑
+                        }
+                    });
+
+                    searchInput.addEventListener('keypress', function (e) {
+                        if (e.key === 'Enter') {
+                            searchButton.click();
+                        }
+                    });
+                }
+
+                // 图片轮播功能
+                function initCarousels() {
+                    const carousels = document.querySelectorAll('.image-carousel');
+
+                    carousels.forEach(carousel => {
+                        const slides = carousel.querySelectorAll('.carousel-slide');
+                        let currentSlide = 0;
+
+                        // 每3秒切换一张图片
+                        setInterval(() => {
+                            // 隐藏当前幻灯片
+                            slides[currentSlide].classList.remove('active');
+
+                            // 计算下一张幻灯片索引
+                            currentSlide = (currentSlide + 1) % slides.length;
+
+                            // 显示下一张幻灯片
+                            slides[currentSlide].classList.add('active');
+                        }, 3000);
+                    });
+                }
+
+                // 初始化轮播
+                initCarousels();
+
+                // 分屏滚动功能
+                let currentScreen = 0;
+                const titleScreen = document.getElementById('titleScreen');
+                const galleryScreen = document.getElementById('galleryScreen');
+                let isScrolling = false;
+
+                // 鼠标滚轮事件
+                window.addEventListener('wheel', function (e) {
+                    if (isScrolling) return;
+
+                    if (e.deltaY > 0 && currentScreen === 0) {
+                        // 向下滚动，切换到导览屏幕
+                        currentScreen = 1;
+                        titleScreen.style.transform = 'translateY(-100vh)';
+                        galleryScreen.style.transform = 'translateY(-100vh)';
+                        isScrolling = true;
+
+                        setTimeout(function () {
+                            isScrolling = false;
+                        }, 1000);
+                    } else if (e.deltaY < 0 && currentScreen === 1) {
+                        // 向上滚动，切换到标题屏幕
+                        currentScreen = 0;
+                        titleScreen.style.transform = 'translateY(0)';
+                        galleryScreen.style.transform = 'translateY(0)';
+                        isScrolling = true;
+
+                        setTimeout(function () {
+                            isScrolling = false;
+                        }, 1000);
+                    }
+                });
+
+                // 触摸滑动事件（移动设备）
+                let touchStartY = 0;
+
+                window.addEventListener('touchstart', function (e) {
+                    touchStartY = e.touches[0].clientY;
+                });
+
+                window.addEventListener('touchend', function (e) {
+                    if (isScrolling) return;
+
+                    const touchEndY = e.changedTouches[0].clientY;
+                    const deltaY = touchStartY - touchEndY;
+
+                    if (deltaY > 50 && currentScreen === 0) {
+                        // 向下滑动，切换到导览屏幕
+                        currentScreen = 1;
+                        titleScreen.style.transform = 'translateY(-100vh)';
+                        galleryScreen.style.transform = 'translateY(-100vh)';
+                        isScrolling = true;
+
+                        setTimeout(function () {
+                            isScrolling = false;
+                        }, 1000);
+                    } else if (deltaY < -50 && currentScreen === 1) {
+                        // 向上滑动，切换到标题屏幕
+                        currentScreen = 0;
+                        titleScreen.style.transform = 'translateY(0)';
+                        galleryScreen.style.transform = 'translateY(0)';
+                        isScrolling = true;
+
+                        setTimeout(function () {
+                            isScrolling = false;
+                        }, 1000);
+                    }
+                });
+            }
+
+            // 山河页面特有功能
+            const landscapePage = document.getElementById('landscape-page');
+            if (landscapePage) {
+                // 创建粒子特效
+                function createParticles(containerId, type, count) {
+                    const container = document.getElementById(containerId);
+                    container.innerHTML = '';
+
+                    for (let i = 0; i < count; i++) {
+                        const particle = document.createElement('div');
+
+                        // 根据类型设置粒子样式
+                        switch (type) {
+                            case 'snow':
+                                particle.classList.add('snowflake');
+                                break;
+                            case 'sand':
+                                particle.classList.add('sand-particle');
+                                break;
+                            case 'field':
+                                particle.classList.add('field-particle');
+                                break;
+                            case 'water':
+                                particle.classList.add('water-particle');
+                                break;
+                            case 'coast':
+                                particle.classList.add('coast-particle');
+                                break;
+                        }
+
+                        // 随机大小
+                        const size = Math.random() * 8 + 2;
+                        particle.style.width = `${size}px`;
+                        particle.style.height = `${size}px`;
+
+                        // 随机位置
+                        particle.style.left = `${Math.random() * 100}%`;
+
+                        // 随机动画延迟
+                        particle.style.animationDelay = `${Math.random() * 15}s`;
+
+                        container.appendChild(particle);
+                    }
+                }
+
+                // 初始化粒子
+                createParticles('particles1', 'snow', 30);
+                createParticles('particles2', 'sand', 25);
+                createParticles('particles3', 'field', 20);
+                createParticles('particles4', 'water', 25);
+                createParticles('particles5', 'coast', 20);
+
+                // 地图引导页逻辑
+                const mapIntro = document.getElementById('mapIntro');
+                const startButton = document.getElementById('startButton');
+                const scenesContainer = document.getElementById('scenesContainer');
+                const miniMap = document.getElementById('miniMap');
+                const locationDot = document.getElementById('locationDot');
+
+                if (startButton) {
+                    startButton.addEventListener('click', function () {
+                        // 淡出地图引导页
+                        mapIntro.style.opacity = '0';
+
+                        // 显示场景容器和小地图
+                        setTimeout(function () {
+                            mapIntro.style.display = 'none';
+                            scenesContainer.style.display = 'block';
+                            miniMap.style.display = 'block';
+
+                            // 初始化位置点位置
+                            updateLocationDot(0);
+                        }, 1500);
+                    });
+                }
+
+                // 场景位置点坐标（根据地图图片调整）
+                const locationPositions = [
+                    { top: '25%', left: '45%' },   // 北方雪山
+                    { top: '40%', left: '30%' },   // 戈壁沙漠
+                    { top: '50%', left: '50%' },   // 中原平原
+                    { top: '60%', left: '60%' },   // 江南水乡
+                    { top: '75%', left: '55%' }    // 南方海岸
+                ];
+
+                // 更新位置点
+                function updateLocationDot(sceneIndex) {
+                    const position = locationPositions[sceneIndex];
+                    locationDot.style.top = position.top;
+                    locationDot.style.left = position.left;
+                }
+
+                // 场景切换逻辑
+                const scenes = document.querySelectorAll('.scene');
+                const dots = document.querySelectorAll('.indicator-dot');
+                let currentScene = 0;
+                let isScrolling = false;
+
+                // 切换到指定场景
+                function switchToScene(index) {
+                    if (isScrolling || index < 0 || index >= scenes.length) return;
+
+                    isScrolling = true;
+
+                    // 更新当前场景
+                    scenes[currentScene].classList.remove('active');
+                    dots[currentScene].classList.remove('active');
+
+                    currentScene = index;
+
+                    scenes[currentScene].classList.add('active');
+                    dots[currentScene].classList.add('active');
+
+                    // 更新位置点
+                    updateLocationDot(currentScene);
+
+                    // 更新滚动指示器文本
+                    const scrollIndicator = document.querySelector('.scroll-indicator');
+                    if (currentScene === scenes.length - 1) {
+                        scrollIndicator.textContent = '向上滚动返回';
+                    } else {
+                        scrollIndicator.textContent = '向下滚动继续探索';
+                    }
+
+                    // 重置滚动锁定
+                    setTimeout(() => {
+                        isScrolling = false;
+                    }, 1500);
+                }
+
+                // 鼠标滚轮事件
+                window.addEventListener('wheel', function (e) {
+                    if (isScrolling || mapIntro.style.display !== 'none') return;
+
+                    if (e.deltaY > 0 && currentScene < scenes.length - 1) {
+                        // 向下滚动，切换到下一个场景
+                        switchToScene(currentScene + 1);
+                    } else if (e.deltaY < 0 && currentScene > 0) {
+                        // 向上滚动，切换到上一个场景
+                        switchToScene(currentScene - 1);
+                    }
+                });
+
+                // 进度指示器点击事件
+                dots.forEach((dot, index) => {
+                    dot.addEventListener('click', function () {
+                        if (mapIntro.style.display !== 'none') return;
+                        switchToScene(index);
+                    });
+                });
+
+                // 键盘事件
+                window.addEventListener('keydown', function (e) {
+                    if (isScrolling || mapIntro.style.display !== 'none') return;
+
+                    if (e.key === 'ArrowDown' && currentScene < scenes.length - 1) {
+                        switchToScene(currentScene + 1);
+                    } else if (e.key === 'ArrowUp' && currentScene > 0) {
+                        switchToScene(currentScene - 1);
+                    }
+                });
+
+                // 触摸滑动事件（移动设备）
+                let touchStartY = 0;
+
+                window.addEventListener('touchstart', function (e) {
+                    touchStartY = e.touches[0].clientY;
+                });
+
+                window.addEventListener('touchend', function (e) {
+                    if (isScrolling || mapIntro.style.display !== 'none') return;
+
+                    const touchEndY = e.changedTouches[0].clientY;
+                    const deltaY = touchStartY - touchEndY;
+
+                    if (deltaY > 50 && currentScene < scenes.length - 1) {
+                        switchToScene(currentScene + 1);
+                    } else if (deltaY < -50 && currentScene > 0) {
+                        switchToScene(currentScene - 1);
+                    }
+                });
+            }
+
+
+
+            // 人间页面特有功能
+            const humanPage = document.getElementById('human-page');
+            if (humanPage) {
+                // 人文数据
+                const cultureData = [
+                    {
+                        id: 1,
+                        name: "北京胡同文化",
+                        image: "images/北京胡同.jpg",
+                        description: "北京胡同是老北京人生活的缩影，承载着数百年的历史文化，是体验京味儿文化的绝佳场所。",
+                        region: "north",
+                        type: "life",
+                        tags: ["市井生活", "传统文化"],
+                        location: "北京",
+                        bestSeason: "春秋季"
+                    },
+                    {
+                        id: 2,
+                        name: "江南水乡生活",
+                        image: "images/江南水乡生活.jpg",
+                        description: "小桥流水人家，江南水乡以其独特的水网格局和悠闲的生活方式，展现了中国传统水乡文化的魅力。",
+                        region: "east",
+                        type: "life",
+                        tags: ["水乡文化", "慢生活"],
+                        location: "江苏、浙江",
+                        bestSeason: "春季"
+                    },
+                    {
+                        id: 3,
+                        name: "川渝茶馆文化",
+                        image: "images/川渝茶馆.jpg",
+                        description: "四川和重庆的茶馆是当地人社交生活的重要场所，品茶、聊天、打麻将，体现了巴蜀地区悠闲的生活态度。",
+                        region: "southwest",
+                        type: "life",
+                        tags: ["茶文化", "社交生活"],
+                        location: "四川、重庆",
+                        bestSeason: "全年"
+                    },
+                    {
+                        id: 4,
+                        name: "春节庙会",
+                        image: "images/春节庙会.jpg",
+                        description: "中国最重要的传统节日，各地庙会热闹非凡，舞龙舞狮、戏曲表演、特色小吃，充满浓厚的节日氛围。",
+                        region: "north",
+                        type: "festival",
+                        tags: ["传统节日", "民俗活动"],
+                        location: "全国各地",
+                        bestSeason: "冬季"
+                    },
+                    {
+                        id: 5,
+                        name: "端午龙舟赛",
+                        image: "images/端午龙舟赛.jpg",
+                        description: "为纪念屈原而举行的龙舟竞赛，已成为中国南方地区重要的传统水上活动，充满激情与团队精神。",
+                        region: "south",
+                        type: "festival",
+                        tags: ["水上活动", "传统节日"],
+                        location: "南方各省",
+                        bestSeason: "夏季"
+                    },
+                    {
+                        id: 6,
+                        name: "景德镇陶瓷",
+                        image: "images/景德镇陶瓷.jpg",
+                        description: "千年瓷都景德镇以其精湛的制瓷工艺闻名于世，参观古窑、体验制瓷过程，感受中国陶瓷文化的博大精深。",
+                        region: "east",
+                        type: "craft",
+                        tags: ["传统工艺", "非物质文化遗产"],
+                        location: "江西景德镇",
+                        bestSeason: "全年"
+                    }
+                ];
+
+                // 渲染人文卡片
+                function renderCulture(cultures) {
+                    const grid = document.getElementById('cultureGrid');
+                    grid.innerHTML = '';
+
+                    if (cultures.length === 0) {
+                        grid.innerHTML = '<div style="text-align: center; padding: 2rem; color: #e6d7b8; grid-column: 1 / -1;">没有找到符合条件的文化体验，请尝试其他筛选条件。</div>';
+                        return;
+                    }
+
+                    cultures.forEach(culture => {
+                        const card = document.createElement('div');
+                        card.className = 'culture-card';
+                        card.innerHTML = `
+                            <img src="${culture.image}" alt="${culture.name}" class="card-image" onerror="this.src='https://via.placeholder.com/350x220/1a3a5f/ffffff?text=文化体验'">
+                            <div class="card-content">
+                                <h3 class="card-title">${culture.name}</h3>
+                                <p class="card-description">${culture.description}</p>
+                                <div class="card-tags">
+                                    ${culture.tags.map(tag => `<span class="card-tag">${tag}</span>`).join('')}
+                                </div>
+                                <div class="card-info">
+                                    <span>地理位置: ${culture.location}</span>
+                                    <span>最佳季节: ${culture.bestSeason}</span>
+                                </div>
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+                }
+
+                // 筛选功能
+                function filterCulture() {
+                    const regionFilter = document.getElementById('regionFilter').value;
+                    const typeFilter = document.getElementById('typeFilter').value;
+
+                    const filteredCulture = cultureData.filter(culture => {
+                        return (regionFilter === 'all' || culture.region === regionFilter) &&
+                            (typeFilter === 'all' || culture.type === typeFilter);
+                    });
+
+                    renderCulture(filteredCulture);
+                }
+
+                // 初始渲染所有人文体验
+                renderCulture(cultureData);
+
+                // 添加筛选事件监听
+                document.getElementById('regionFilter').addEventListener('change', filterCulture);
+                document.getElementById('typeFilter').addEventListener('change', filterCulture);
+
+                // 为特色专题卡片添加点击事件
+                document.querySelectorAll('.feature-card').forEach(card => {
+                    card.addEventListener('click', function () {
+                        const link = this.getAttribute('data-link');
+                        if (link) {
+                            window.location.href = link;
+                        }
+                    });
+                });
+
+                // 为文化解读卡片添加点击事件
+                document.querySelectorAll('.interpretation-card').forEach(card => {
+                    card.addEventListener('click', function (e) {
+                        // 如果点击的是阅读全文按钮，不触发卡片点击事件
+                        if (e.target.classList.contains('read-more')) {
+                            return;
+                        }
+                        const link = this.getAttribute('data-link');
+                        if (link) {
+                            window.location.href = link;
+                        }
+                    });
+                });
+            }
+
+            // 行旅页面特有功能
+            const travelPage = document.getElementById('travel-page');
+            if (travelPage) {
+                // 景点数据 - 每个地区都有对应景点，每个季节也有对应景点
+                const attractionsData = [
+                    {
+                        id: 1,
+                        name: "北京故宫",
+                        image: "images/北京故宫.jpg",
+                        description: "明清两代的皇家宫殿，世界上现存规模最大、保存最为完整的木质结构古建筑群。",
+                        region: "north",
+                        type: "culture",
+                        season: "all",
+                        tags: ["世界文化遗产", "历史古迹"],
+                        duration: "3-4小时",
+                        bestSeason: "春秋季"
+                    },
+                    {
+                        id: 2,
+                        name: "杭州西湖",
+                        image: "images/杭州西湖.jpg",
+                        description: "中国著名的风景名胜区，以湖光山色和众多人文景观闻名，被誉为'人间天堂'。",
+                        region: "east",
+                        type: "nature",
+                        season: "spring",
+                        tags: ["世界文化遗产", "自然风光"],
+                        duration: "全天",
+                        bestSeason: "春季"
+                    },
+                    {
+                        id: 3,
+                        name: "桂林山水",
+                        image: "images/桂林山水.jpg",
+                        description: "以山水风光著称，'桂林山水甲天下'的美誉流传千年，喀斯特地貌尤为壮观。",
+                        region: "south",
+                        type: "nature",
+                        season: "autumn",
+                        tags: ["自然奇观", "摄影胜地"],
+                        duration: "2-3天",
+                        bestSeason: "秋季"
+                    },
+                    {
+                        id: 4,
+                        name: "西安兵马俑",
+                        image: "images/西安兵马俑.jpg",
+                        description: "秦始皇陵的陪葬坑，被誉为'世界第八大奇迹'，展示了秦代雕塑艺术的巅峰成就。",
+                        region: "northwest",
+                        type: "culture",
+                        season: "all",
+                        tags: ["世界文化遗产", "历史遗迹"],
+                        duration: "2-3小时",
+                        bestSeason: "春秋季"
+                    },
+                    {
+                        id: 5,
+                        name: "张家界国家森林公园",
+                        image: "images/张家界.jpg",
+                        description: "以奇特的石英砂岩峰林地貌著称，是《阿凡达》电影中悬浮山的原型取景地。",
+                        region: "southwest",
+                        type: "nature",
+                        season: "summer",
+                        tags: ["世界自然遗产", "地质奇观"],
+                        duration: "1-2天",
+                        bestSeason: "夏季"
+                    },
+                    {
+                        id: 6,
+                        name: "上海外滩",
+                        image: "images/外滩.jpg",
+                        description: "黄浦江畔的历史建筑群与现代摩天大楼交相辉映，展现上海百年沧桑与繁华。",
+                        region: "east",
+                        type: "city",
+                        season: "all",
+                        tags: ["城市地标", "夜景胜地"],
+                        duration: "2-3小时",
+                        bestSeason: "春秋季"
+                    },
+                    {
+                        id: 7,
+                        name: "长白山天池",
+                        image: "images/天池.jpg",
+                        description: "中国东北的著名火山口湖，四季景色各异，尤以冬季雪景最为壮观。",
+                        region: "northeast",
+                        type: "nature",
+                        season: "winter",
+                        tags: ["火山湖", "自然奇观"],
+                        duration: "1天",
+                        bestSeason: "冬季"
+                    },
+                    {
+                        id: 8,
+                        name: "三亚亚龙湾",
+                        image: "images/亚龙湾.jpg",
+                        description: "被誉为'天下第一湾',拥有7千米长的银白色海滩,沙质细腻，海水洁净。",
+                        region: "south",
+                        type: "nature",
+                        season: "winter",
+                        tags: ["海滩", "度假胜地"],
+                        duration: "2-3天",
+                        bestSeason: "冬季"
+                    },
+                    {
+                        id: 9,
+                        name: "九寨沟",
+                        image: "images/九寨沟.jpg",
+                        description: "以翠海、叠瀑、彩林、雪峰、藏情'五绝'著称，被誉为'童话世界'。",
+                        region: "southwest",
+                        type: "nature",
+                        season: "autumn",
+                        tags: ["世界自然遗产", "摄影天堂"],
+                        duration: "2天",
+                        bestSeason: "秋季"
+                    },
+                    {
+                        id: 10,
+                        name: "哈尔滨冰雪大世界",
+                        image: "images/哈尔滨.jpg",
+                        description: "世界最大的冰雪主题公园，每年冬季展出精美绝伦的冰雕和雪雕作品。",
+                        region: "northeast",
+                        type: "culture",
+                        season: "winter",
+                        tags: ["冰雪艺术", "冬季限定"],
+                        duration: "3-4小时",
+                        bestSeason: "冬季"
+                    },
+                    {
+                        id: 11,
+                        name: "青海湖",
+                        image: "images/青海湖.jpg",
+                        description: "中国最大的内陆咸水湖，夏季湖畔油菜花盛开，景色壮丽。",
+                        region: "northwest",
+                        type: "nature",
+                        season: "summer",
+                        tags: ["高原湖泊", "观鸟胜地"],
+                        duration: "1天",
+                        bestSeason: "夏季"
+                    },
+                    {
+                        id: 12,
+                        name: "苏州园林",
+                        image: "images/苏州园林.jpg",
+                        description: "中国古典园林的代表，以精巧布局和意境深远著称，体现了江南文化的精髓。",
+                        region: "east",
+                        type: "culture",
+                        season: "spring",
+                        tags: ["世界文化遗产", "古典园林"],
+                        duration: "半天",
+                        bestSeason: "春季"
+                    }
+                ];
+
+                // 渲染景点卡片
+                function renderAttractions(attractions) {
+                    const grid = document.getElementById('attractionsGrid');
+                    grid.innerHTML = '';
+
+                    if (attractions.length === 0) {
+                        grid.innerHTML = '<div style="text-align: center; padding: 2rem; color: #e6d7b8; grid-column: 1 / -1;">没有找到符合条件的景点，请尝试其他筛选条件。</div>';
+                        return;
+                    }
+
+                    attractions.forEach(attraction => {
+                        const card = document.createElement('div');
+                        card.className = 'attraction-card';
+                        card.innerHTML = `
+                            <img src="${attraction.image}" alt="${attraction.name}" class="card-image" onerror="this.src='https://via.placeholder.com/350x220/1a3a5f/ffffff?text=景点图片'">
+                            <div class="card-content">
+                                <h3 class="card-title">${attraction.name}</h3>
+                                <p class="card-description">${attraction.description}</p>
+                                <div class="card-tags">
+                                    ${attraction.tags.map(tag => `<span class="card-tag">${tag}</span>`).join('')}
+                                </div>
+                                <div class="card-info">
+                                    <span>最佳季节: ${attraction.bestSeason}</span>
+                                    <span>建议时长: ${attraction.duration}</span>
+                                </div>
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+                }
+
+                // 筛选功能
+                function filterAttractions() {
+                    const regionFilter = document.getElementById('regionFilter').value;
+                    const typeFilter = document.getElementById('typeFilter').value;
+                    const seasonFilter = document.getElementById('seasonFilter').value;
+
+                    const filteredAttractions = attractionsData.filter(attraction => {
+                        return (regionFilter === 'all' || attraction.region === regionFilter) &&
+                            (typeFilter === 'all' || attraction.type === typeFilter) &&
+                            (seasonFilter === 'all' || attraction.season === seasonFilter);
+                    });
+
+                    renderAttractions(filteredAttractions);
+                }
+
+                // 初始渲染所有景点
+                renderAttractions(attractionsData);
+
+                // 添加筛选事件监听
+                document.getElementById('regionFilter').addEventListener('change', filterAttractions);
+                document.getElementById('typeFilter').addEventListener('change', filterAttractions);
+                document.getElementById('seasonFilter').addEventListener('change', filterAttractions);
+
+                // 分享按钮交互
+                document.getElementById('shareStoryBtn').addEventListener('click', function () {
+                    alert('分享功能开发中，敬请期待！');
+                });
+
+                document.getElementById('showFavoritesBtn').addEventListener('click', function () {
+                    alert('收藏功能开发中，敬请期待！');
+                });
+
+                document.getElementById('customRouteBtn').addEventListener('click', function () {
+                    alert('路线定制功能开发中，敬请期待！');
+                });
+            }
+
+            // 关于页面特有功能
+            const aboutPage = document.getElementById('about-page');
+            if (aboutPage) {
+                // 关于页面没有特殊功能，只有静态内容
+            }
+
+            // 个人页面特有功能
+            const profilePage = document.getElementById('profile-page');
+            if (profilePage) {
+                // 用户数据
+                let userData = {
+                    name: "旅行者",
+                    bio: "热爱探索华夏美景的旅行爱好者，喜欢记录旅途中的点点滴滴。",
+                    avatar: null
+                };
+
+                // 收藏数据
+                let collectionsData = [
+                    {
+                        id: 1,
+                        title: "杭州西湖",
+                        image: "images/杭州西湖.jpg",
+                        date: "2023-10-15",
+                        tags: ["自然风光", "人文景观"]
+                    },
+                    {
+                        id: 2,
+                        title: "西安兵马俑",
+                        image: "images/西安兵马俑.jpg",
+                        date: "2023-08-22",
+                        tags: ["历史遗迹", "文化探索"]
+                    },
+                    {
+                        id: 3,
+                        title: "张家界国家森林公园",
+                        image: "images/张家界.jpg",
+                        date: "2023-06-10",
+                        tags: ["自然奇观", "摄影胜地"]
+                    }
+                ];
+
+                // 渲染收藏卡片
+                function renderCollections() {
+                    const grid = document.getElementById('collectionsGrid');
+                    grid.innerHTML = '';
+
+                    collectionsData.forEach(collection => {
+                        const card = document.createElement('div');
+                        card.className = 'collection-card';
+                        card.innerHTML = `
+                            <img src="${collection.image}" alt="${collection.title}" class="collection-image">
+                            <button class="remove-collection" data-id="${collection.id}">&times;</button>
+                            <div class="collection-content">
+                                <h3 class="collection-title">${collection.title}</h3>
+                                <div class="collection-date">${collection.date}</div>
+                                <div class="collection-tags">
+                                    ${collection.tags.map(tag => `<span class="collection-tag">${tag}</span>`).join('')}
+                                </div>
+                            </div>
+                        `;
+                        grid.appendChild(card);
+                    });
+
+                    // 添加删除事件监听
+                    document.querySelectorAll('.remove-collection').forEach(button => {
+                        button.addEventListener('click', function () {
+                            const id = parseInt(this.getAttribute('data-id'));
+                            removeCollection(id);
+                        });
+                    });
+                }
+
+                // 删除收藏
+                function removeCollection(id) {
+                    collectionsData = collectionsData.filter(collection => collection.id !== id);
+                    saveCollectionsToLocalStorage();
+                    renderCollections();
+                }
+
+                // 添加收藏
+                function addCollection(title, image, tags) {
+                    const newCollection = {
+                        id: Date.now(),
+                        title: title,
+                        image: image,
+                        date: new Date().toISOString().split('T')[0],
+                        tags: tags.split(',').map(tag => tag.trim())
+                    };
+
+                    collectionsData.push(newCollection);
+                    saveCollectionsToLocalStorage();
+                    renderCollections();
+                }
+
+                // 更新用户信息
+                function updateUserInfo(name, bio, avatar) {
+                    userData.name = name;
+                    userData.bio = bio;
+                    userData.avatar = avatar;
+
+                    document.getElementById('userNameDisplay').textContent = userData.name;
+                    document.getElementById('userBioDisplay').textContent = userData.bio;
+
+                    const avatarContainer = document.getElementById('avatarContainer');
+                    if (userData.avatar) {
+                        avatarContainer.innerHTML = `<img src="${userData.avatar}" alt="${userData.name}">`;
+                    } else {
+                        avatarContainer.innerHTML = `<div class="avatar-text">${userData.name.charAt(0)}</div>`;
+                    }
+
+                    saveUserDataToLocalStorage();
+                }
+
+                // 保存用户数据到本地存储
+                function saveUserDataToLocalStorage() {
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                }
+
+                // 保存收藏数据到本地存储
+                function saveCollectionsToLocalStorage() {
+                    localStorage.setItem('collectionsData', JSON.stringify(collectionsData));
+                }
+
+                // 从本地存储加载数据
+                function loadDataFromLocalStorage() {
+                    const savedUserData = localStorage.getItem('userData');
+                    const savedCollectionsData = localStorage.getItem('collectionsData');
+
+                    if (savedUserData) {
+                        userData = JSON.parse(savedUserData);
+                        updateUserInfo(userData.name, userData.bio, userData.avatar);
+                    }
+
+                    if (savedCollectionsData) {
+                        collectionsData = JSON.parse(savedCollectionsData);
+                        renderCollections();
+                    }
+                }
+
+                // 主题切换功能
+                function toggleTheme() {
+                    const currentTheme = document.body.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    document.body.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                }
+
+                // 从本地存储加载数据
+                loadDataFromLocalStorage();
+
+                // 初始渲染收藏
+                renderCollections();
+
+                // 主题切换
+                const themeToggle = document.getElementById('themeToggle');
+                const savedTheme = localStorage.getItem('theme');
+
+                if (savedTheme) {
+                    document.body.setAttribute('data-theme', savedTheme);
+                    themeToggle.checked = savedTheme === 'light';
+                }
+
+                themeToggle.addEventListener('change', toggleTheme);
+
+                // 个人主页可见性设置
+                const profileVisibilityToggle = document.getElementById('profileVisibilityToggle');
+                const savedProfileVisibility = localStorage.getItem('profileVisibility');
+
+                if (savedProfileVisibility) {
+                    profileVisibilityToggle.checked = savedProfileVisibility === 'true';
+                }
+
+                profileVisibilityToggle.addEventListener('change', function () {
+                    localStorage.setItem('profileVisibility', this.checked);
+                });
+
+                // 编辑资料模态框
+                const editProfileBtn = document.getElementById('editProfileBtn');
+                const editProfileModal = document.getElementById('editProfileModal');
+                const closeEditModal = document.getElementById('closeEditModal');
+                const cancelEdit = document.getElementById('cancelEdit');
+                const editProfileForm = document.getElementById('editProfileForm');
+
+                editProfileBtn.addEventListener('click', function () {
+                    document.getElementById('userName').value = userData.name;
+                    document.getElementById('userBio').value = userData.bio;
+                    document.getElementById('avatarUrl').value = userData.avatar || '';
+                    editProfileModal.style.display = 'flex';
+                });
+
+                closeEditModal.addEventListener('click', function () {
+                    editProfileModal.style.display = 'none';
+                });
+
+                cancelEdit.addEventListener('click', function () {
+                    editProfileModal.style.display = 'none';
+                });
+
+                editProfileForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const name = document.getElementById('userName').value;
+                    const bio = document.getElementById('userBio').value;
+                    const avatar = document.getElementById('avatarUrl').value;
+
+                    updateUserInfo(name, bio, avatar);
+                    editProfileModal.style.display = 'none';
+                });
+
+                // 添加收藏模态框
+                const addCollectionBtn = document.getElementById('addCollectionBtn');
+                const addCollectionModal = document.getElementById('addCollectionModal');
+                const closeCollectionModal = document.getElementById('closeCollectionModal');
+                const cancelCollection = document.getElementById('cancelCollection');
+                const addCollectionForm = document.getElementById('addCollectionForm');
+
+                addCollectionBtn.addEventListener('click', function () {
+                    addCollectionModal.style.display = 'flex';
+                });
+
+                closeCollectionModal.addEventListener('click', function () {
+                    addCollectionModal.style.display = 'none';
+                });
+
+                cancelCollection.addEventListener('click', function () {
+                    addCollectionModal.style.display = 'none';
+                });
+
+                addCollectionForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const title = document.getElementById('collectionTitle').value;
+                    const image = document.getElementById('collectionImage').value;
+                    const tags = document.getElementById('collectionTags').value;
+
+                    addCollection(title, image, tags);
+                    addCollectionForm.reset();
+                    addCollectionModal.style.display = 'none';
+                });
+
+                // 点击模态框外部关闭
+                window.addEventListener('click', function (e) {
+                    if (e.target === editProfileModal) {
+                        editProfileModal.style.display = 'none';
+                    }
+                    if (e.target === addCollectionModal) {
+                        addCollectionModal.style.display = 'none';
+                    }
+                });
+            }
+
+            // 全局导航栏滚动效果
+            window.addEventListener('scroll', function () {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.style.padding = '1rem 5%';
+                    navbar.style.backgroundColor = document.body.getAttribute('data-theme') === 'dark'
+                        ? 'rgba(10, 25, 47, 0.95)'
+                        : 'rgba(245, 247, 250, 0.95)';
+                } else {
+                    navbar.style.padding = '1.5rem 5%';
+                    navbar.style.backgroundColor = document.body.getAttribute('data-theme') === 'dark'
+                        ? 'rgba(10, 25, 47, 0.9)'
+                        : 'rgba(245, 247, 250, 0.9)';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
