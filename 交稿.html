@@ -3850,168 +3850,168 @@
             // 行旅页面特有功能
             //const travelPage = document.getElementById('travel-page');
             //if (travelPage) {
-                // 景点数据 - 每个地区都有对应景点，每个季节也有对应景点
-                const attractionsData = [
-                    {
-                        id: 1,
-                        name: "北京故宫",
-                        image: "images/Palace.jpg",
-                        description: "明清两代的皇家宫殿，世界上现存规模最大、保存最为完整的木质结构古建筑群。",
-                        region: "north",
-                        type: "culture",
-                        season: "all",
-                        tags: ["世界文化遗产", "历史古迹"],
-                        duration: "3-4小时",
-                        bestSeason: "春秋季"
-                    },
-                    {
-                        id: 2,
-                        name: "杭州西湖",
-                        image: "images/xihu.jpg",
-                        description: "中国著名的风景名胜区，以湖光山色和众多人文景观闻名，被誉为'人间天堂'。",
-                        region: "east",
-                        type: "nature",
-                        season: "spring",
-                        tags: ["世界文化遗产", "自然风光"],
-                        duration: "全天",
-                        bestSeason: "春季"
-                    },
-                    {
-                        id: 3,
-                        name: "桂林山水",
-                        image: "images/guilinshanshui.jpg",
-                        description: "以山水风光著称，'桂林山水甲天下'的美誉流传千年，喀斯特地貌尤为壮观。",
-                        region: "south",
-                        type: "nature",
-                        season: "autumn",
-                        tags: ["自然奇观", "摄影胜地"],
-                        duration: "2-3天",
-                        bestSeason: "秋季"
-                    },
-                    {
-                        id: 4,
-                        name: "西安兵马俑",
-                        image: "images/xianbinmayong.jpg",
-                        description: "秦始皇陵的陪葬坑，被誉为'世界第八大奇迹'，展示了秦代雕塑艺术的巅峰成就。",
-                        region: "northwest",
-                        type: "culture",
-                        season: "all",
-                        tags: ["世界文化遗产", "历史遗迹"],
-                        duration: "2-3小时",
-                        bestSeason: "春秋季"
-                    },
-                    {
-                        id: 5,
-                        name: "张家界国家森林公园",
-                        image: "images/zhangjiajie.jpg",
-                        description: "以奇特的石英砂岩峰林地貌著称，是《阿凡达》电影中悬浮山的原型取景地。",
-                        region: "southwest",
-                        type: "nature",
-                        season: "summer",
-                        tags: ["世界自然遗产", "地质奇观"],
-                        duration: "1-2天",
-                        bestSeason: "夏季"
-                    },
-                    {
-                        id: 6,
-                        name: "上海外滩",
-                        image: "images/waitan.jpg",
-                        description: "黄浦江畔的历史建筑群与现代摩天大楼交相辉映，展现上海百年沧桑与繁华。",
-                        region: "east",
-                        type: "city",
-                        season: "all",
-                        tags: ["城市地标", "夜景胜地"],
-                        duration: "2-3小时",
-                        bestSeason: "春秋季"
-                    },
-                    {
-                        id: 7,
-                        name: "长白山天池",
-                        image: "images/tianchi.jpg",
-                        description: "中国东北的著名火山口湖，四季景色各异，尤以冬季雪景最为壮观。",
-                        region: "northeast",
-                        type: "nature",
-                        season: "winter",
-                        tags: ["火山湖", "自然奇观"],
-                        duration: "1天",
-                        bestSeason: "冬季"
-                    },
-                    {
-                        id: 8,
-                        name: "三亚亚龙湾",
-                        image: "images/yalongwan.jpg",
-                        description: "被誉为'天下第一湾',拥有7千米长的银白色海滩,沙质细腻，海水洁净。",
-                        region: "south",
-                        type: "nature",
-                        season: "winter",
-                        tags: ["海滩", "度假胜地"],
-                        duration: "2-3天",
-                        bestSeason: "冬季"
-                    },
-                    {
-                        id: 9,
-                        name: "九寨沟",
-                        image: "images/jiuzhaigou.jpg",
-                        description: "以翠海、叠瀑、彩林、雪峰、藏情'五绝'著称，被誉为'童话世界'。",
-                        region: "southwest",
-                        type: "nature",
-                        season: "autumn",
-                        tags: ["世界自然遗产", "摄影天堂"],
-                        duration: "2天",
-                        bestSeason: "秋季"
-                    },
-                    {
-                        id: 10,
-                        name: "哈尔滨冰雪大世界",
-                        image: "images/haerbin.jpg",
-                        description: "世界最大的冰雪主题公园，每年冬季展出精美绝伦的冰雕和雪雕作品。",
-                        region: "northeast",
-                        type: "culture",
-                        season: "winter",
-                        tags: ["冰雪艺术", "冬季限定"],
-                        duration: "3-4小时",
-                        bestSeason: "冬季"
-                    },
-                    {
-                        id: 11,
-                        name: "青海湖",
-                        image: "images/qinghaisea.jpg",
-                        description: "中国最大的内陆咸水湖，夏季湖畔油菜花盛开，景色壮丽。",
-                        region: "northwest",
-                        type: "nature",
-                        season: "summer",
-                        tags: ["高原湖泊", "观鸟胜地"],
-                        duration: "1天",
-                        bestSeason: "夏季"
-                    },
-                    {
-                        id: 12,
-                        name: "苏州园林",
-                        image: "images/suzhouyuanlin.jpg",
-                        description: "中国古典园林的代表，以精巧布局和意境深远著称，体现了江南文化的精髓。",
-                        region: "east",
-                        type: "culture",
-                        season: "spring",
-                        tags: ["世界文化遗产", "古典园林"],
-                        duration: "半天",
-                        bestSeason: "春季"
-                    }
-                ];
+            // 景点数据 - 每个地区都有对应景点，每个季节也有对应景点
+            const attractionsData = [
+                {
+                    id: 1,
+                    name: "北京故宫",
+                    image: "images/Palace.jpg",
+                    description: "明清两代的皇家宫殿，世界上现存规模最大、保存最为完整的木质结构古建筑群。",
+                    region: "north",
+                    type: "culture",
+                    season: "all",
+                    tags: ["世界文化遗产", "历史古迹"],
+                    duration: "3-4小时",
+                    bestSeason: "春秋季"
+                },
+                {
+                    id: 2,
+                    name: "杭州西湖",
+                    image: "images/xihu.jpg",
+                    description: "中国著名的风景名胜区，以湖光山色和众多人文景观闻名，被誉为'人间天堂'。",
+                    region: "east",
+                    type: "nature",
+                    season: "spring",
+                    tags: ["世界文化遗产", "自然风光"],
+                    duration: "全天",
+                    bestSeason: "春季"
+                },
+                {
+                    id: 3,
+                    name: "桂林山水",
+                    image: "images/guilinshanshui.jpg",
+                    description: "以山水风光著称，'桂林山水甲天下'的美誉流传千年，喀斯特地貌尤为壮观。",
+                    region: "south",
+                    type: "nature",
+                    season: "autumn",
+                    tags: ["自然奇观", "摄影胜地"],
+                    duration: "2-3天",
+                    bestSeason: "秋季"
+                },
+                {
+                    id: 4,
+                    name: "西安兵马俑",
+                    image: "images/xianbinmayong.jpg",
+                    description: "秦始皇陵的陪葬坑，被誉为'世界第八大奇迹'，展示了秦代雕塑艺术的巅峰成就。",
+                    region: "northwest",
+                    type: "culture",
+                    season: "all",
+                    tags: ["世界文化遗产", "历史遗迹"],
+                    duration: "2-3小时",
+                    bestSeason: "春秋季"
+                },
+                {
+                    id: 5,
+                    name: "张家界国家森林公园",
+                    image: "images/zhangjiajie.jpg",
+                    description: "以奇特的石英砂岩峰林地貌著称，是《阿凡达》电影中悬浮山的原型取景地。",
+                    region: "southwest",
+                    type: "nature",
+                    season: "summer",
+                    tags: ["世界自然遗产", "地质奇观"],
+                    duration: "1-2天",
+                    bestSeason: "夏季"
+                },
+                {
+                    id: 6,
+                    name: "上海外滩",
+                    image: "images/waitan.jpg",
+                    description: "黄浦江畔的历史建筑群与现代摩天大楼交相辉映，展现上海百年沧桑与繁华。",
+                    region: "east",
+                    type: "city",
+                    season: "all",
+                    tags: ["城市地标", "夜景胜地"],
+                    duration: "2-3小时",
+                    bestSeason: "春秋季"
+                },
+                {
+                    id: 7,
+                    name: "长白山天池",
+                    image: "images/tianchi.jpg",
+                    description: "中国东北的著名火山口湖，四季景色各异，尤以冬季雪景最为壮观。",
+                    region: "northeast",
+                    type: "nature",
+                    season: "winter",
+                    tags: ["火山湖", "自然奇观"],
+                    duration: "1天",
+                    bestSeason: "冬季"
+                },
+                {
+                    id: 8,
+                    name: "三亚亚龙湾",
+                    image: "images/yalongwan.jpg",
+                    description: "被誉为'天下第一湾',拥有7千米长的银白色海滩,沙质细腻，海水洁净。",
+                    region: "south",
+                    type: "nature",
+                    season: "winter",
+                    tags: ["海滩", "度假胜地"],
+                    duration: "2-3天",
+                    bestSeason: "冬季"
+                },
+                {
+                    id: 9,
+                    name: "九寨沟",
+                    image: "images/jiuzhaigou.jpg",
+                    description: "以翠海、叠瀑、彩林、雪峰、藏情'五绝'著称，被誉为'童话世界'。",
+                    region: "southwest",
+                    type: "nature",
+                    season: "autumn",
+                    tags: ["世界自然遗产", "摄影天堂"],
+                    duration: "2天",
+                    bestSeason: "秋季"
+                },
+                {
+                    id: 10,
+                    name: "哈尔滨冰雪大世界",
+                    image: "images/haerbin.jpg",
+                    description: "世界最大的冰雪主题公园，每年冬季展出精美绝伦的冰雕和雪雕作品。",
+                    region: "northeast",
+                    type: "culture",
+                    season: "winter",
+                    tags: ["冰雪艺术", "冬季限定"],
+                    duration: "3-4小时",
+                    bestSeason: "冬季"
+                },
+                {
+                    id: 11,
+                    name: "青海湖",
+                    image: "images/qinghaisea.jpg",
+                    description: "中国最大的内陆咸水湖，夏季湖畔油菜花盛开，景色壮丽。",
+                    region: "northwest",
+                    type: "nature",
+                    season: "summer",
+                    tags: ["高原湖泊", "观鸟胜地"],
+                    duration: "1天",
+                    bestSeason: "夏季"
+                },
+                {
+                    id: 12,
+                    name: "苏州园林",
+                    image: "images/suzhouyuanlin.jpg",
+                    description: "中国古典园林的代表，以精巧布局和意境深远著称，体现了江南文化的精髓。",
+                    region: "east",
+                    type: "culture",
+                    season: "spring",
+                    tags: ["世界文化遗产", "古典园林"],
+                    duration: "半天",
+                    bestSeason: "春季"
+                }
+            ];
 
-                // 渲染景点卡片
-                function renderAttractions(attractions) {
-                    const grid = document.getElementById('attractionsGrid');
-                    grid.innerHTML = '';
+            // 渲染景点卡片
+            function renderAttractions(attractions) {
+                const grid = document.getElementById('attractionsGrid');
+                grid.innerHTML = '';
 
-                    if (attractions.length === 0) {
-                        grid.innerHTML = '<div style="text-align: center; padding: 2rem; color: #e6d7b8; grid-column: 1 / -1;">没有找到符合条件的景点，请尝试其他筛选条件。</div>';
-                        return;
-                    }
+                if (attractions.length === 0) {
+                    grid.innerHTML = '<div style="text-align: center; padding: 2rem; color: #e6d7b8; grid-column: 1 / -1;">没有找到符合条件的景点，请尝试其他筛选条件。</div>';
+                    return;
+                }
 
-                    attractions.forEach(attraction => {
-                        const card = document.createElement('div');
-                        card.className = 'attraction-card';
-                        card.innerHTML = `
+                attractions.forEach(attraction => {
+                    const card = document.createElement('div');
+                    card.className = 'attraction-card';
+                    card.innerHTML = `
                             <img src="${attraction.image}" alt="${attraction.name}" class="card-image" onerror="this.src='https://via.placeholder.com/350x220/1a3a5f/ffffff?text=景点图片'">
                             <div class="card-content">
                                 <h3 class="card-title">${attraction.name}</h3>
@@ -4025,45 +4025,45 @@
                                 </div>
                             </div>
                         `;
-                        grid.appendChild(card);
-                    });
-                }
+                    grid.appendChild(card);
+                });
+            }
 
-                // 筛选功能
-                function filterAttractions() {
-                    const regionFilter = document.getElementById('regionFilter').value;
-                    const typeFilter = document.getElementById('typeFilter').value;
-                    const seasonFilter = document.getElementById('seasonFilter').value;
+            // 筛选功能
+            function filterAttractions() {
+                const regionFilter = document.getElementById('regionFilter').value;
+                const typeFilter = document.getElementById('typeFilter').value;
+                const seasonFilter = document.getElementById('seasonFilter').value;
 
-                    const filteredAttractions = attractionsData.filter(attraction => {
-                        return (regionFilter === 'all' || attraction.region === regionFilter) &&
-                            (typeFilter === 'all' || attraction.type === typeFilter) &&
-                            (seasonFilter === 'all' || attraction.season === seasonFilter);
-                    });
-
-                    renderAttractions(filteredAttractions);
-                }
-
-                // 初始渲染所有景点
-                renderAttractions(attractionsData);
-
-                // 添加筛选事件监听
-                document.getElementById('regionFilter').addEventListener('change', filterAttractions);
-                document.getElementById('typeFilter').addEventListener('change', filterAttractions);
-                document.getElementById('seasonFilter').addEventListener('change', filterAttractions);
-
-                // 分享按钮交互
-                document.getElementById('shareStoryBtn').addEventListener('click', function () {
-                    alert('分享功能开发中，敬请期待！');
+                const filteredAttractions = attractionsData.filter(attraction => {
+                    return (regionFilter === 'all' || attraction.region === regionFilter) &&
+                        (typeFilter === 'all' || attraction.type === typeFilter) &&
+                        (seasonFilter === 'all' || attraction.season === seasonFilter);
                 });
 
-                document.getElementById('showFavoritesBtn').addEventListener('click', function () {
-                    alert('收藏功能开发中，敬请期待！');
-                });
+                renderAttractions(filteredAttractions);
+            }
 
-                document.getElementById('customRouteBtn').addEventListener('click', function () {
-                    alert('路线定制功能开发中，敬请期待！');
-                });
+            // 初始渲染所有景点
+            renderAttractions(attractionsData);
+
+            // 添加筛选事件监听
+            document.getElementById('regionFilter').addEventListener('change', filterAttractions);
+            document.getElementById('typeFilter').addEventListener('change', filterAttractions);
+            document.getElementById('seasonFilter').addEventListener('change', filterAttractions);
+
+            // 分享按钮交互
+            document.getElementById('shareStoryBtn').addEventListener('click', function () {
+                alert('分享功能开发中，敬请期待！');
+            });
+
+            document.getElementById('showFavoritesBtn').addEventListener('click', function () {
+                alert('收藏功能开发中，敬请期待！');
+            });
+
+            document.getElementById('customRouteBtn').addEventListener('click', function () {
+                alert('路线定制功能开发中，敬请期待！');
+            });
             //}
 
             // 关于页面特有功能
@@ -4087,21 +4087,21 @@
                     {
                         id: 1,
                         title: "杭州西湖",
-                        image: "images/杭州西湖.jpg",
+                        image: "images/xihu.jpg",
                         date: "2023-10-15",
                         tags: ["自然风光", "人文景观"]
                     },
                     {
                         id: 2,
                         title: "西安兵马俑",
-                        image: "images/西安兵马俑.jpg",
+                        image: "images/xianbinmayong.jpg",
                         date: "2023-08-22",
                         tags: ["历史遗迹", "文化探索"]
                     },
                     {
                         id: 3,
                         title: "张家界国家森林公园",
-                        image: "images/张家界.jpg",
+                        image: "images/zhangjiajie.jpg",
                         date: "2023-06-10",
                         tags: ["自然奇观", "摄影胜地"]
                     }
